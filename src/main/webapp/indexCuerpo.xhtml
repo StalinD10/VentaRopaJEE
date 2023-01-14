@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <h:outputStylesheet library="css" name="estilosIndexCuerpo.css"/>
+    </h:head>
+    <h:body>
+
+        <nav class="menu">
+            <ol>
+                <li class="menu-item"><a href="indexCuerpo.xhtml" tarjet="contenido">Home</a></li>
+                <li class="menu-item">
+                    <a href="#0" onselect="#{catalogoBean.generarCatalogoDama()}" onclick="PF('tablaDama').show()">Damas</a>
+                    <ol class="sub-menu">
+                        <li> <p:commandLink  class="manu-item" value="Calzado" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarDamaCalzado()}" onclick="PF('tablaDamaCalzado').show()"/> </li>
+                        <li> <p:commandLink  class="manu-item" value="Ropa Interior y Pijamas" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarDamaInteriorPijama()}" onclick="PF('tablaDamaInteriorPijama').show()"/> </li>
+                        <li> <p:commandLink  class="manu-item" value="Camisas y Formal" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarDamaCamisaFormal()}" onclick="PF('tablaDamaCamisaFormal').show()"/> </li>
+                        <li> <p:commandLink  class="manu-item" value="Pantalón" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarDamaPantalon()}" onclick="PF('tablaDamaPantalon').show()"/> </li>
+                        <li> <p:commandLink  class="manu-item" value="Abrigos y Calentadores" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarDamaAbrigoCalentador()}" onclick="PF('tablaDamaAbrigoCalentador').show()"/> </li>
+                        <li> <p:commandLink  class="manu-item" value="Blusas" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarDamaBlusa()}" onclick="PF('tablaDamaBlusa').show()"/> </li>
+                        <li> <p:commandLink  class="manu-item" value="Vestidos" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarDamaVestido()}" onclick="PF('tablaDamaVestido').show()"/> </li>
+                    </ol>
+                </li>
+                <li class="menu-item">
+                    <a href="#0" onselect="#{catalogoBean.generarCatalogoCaballero()}" onclick="PF('tablaCaballero').show()">Caballeros</a>
+                    <ol class="sub-menu">
+                        <li> <p:commandLink  class="manu-item" value="Calzado" style="text-decoration: none;"
+                                             onstart="#{catalogoBean.generarCaballeroCalzado()}" onclick="PF('tablaCaballeroCalzado').show()"/> </li>
+                        <li> <p:commandLink  class="manu-item" value="Ropa Interior y Pijamas" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarCaballeroInteriorPijama()}" onclick="PF('tablaCaballeroInteriorPijama').show()"/> </li>
+                        <li> <p:commandLink  class="manu-item" value="Camisas y Formal" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarCaballeroCamisaFormal()}" onclick="PF('tablaCaballeroCamisaFormal').show()"/> </li>
+                        <li> <p:commandLink  class="manu-item" value="Pantalon y Bermudas" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarCaballeroPantalonBermuda()}" onclick="PF('tablaCaballeroPantalonBermuda').show()"/> </li>
+                        <li> <p:commandLink  class="manu-item" value="Abrigos" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarCaballeroAbrigo()}" onclick="PF('tablaCaballeroAbrigo').show()"/> </li>
+                        <li> <p:commandLink  class="manu-item" value="Deportiva y Calentadores" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarCaballeroDeportivaCalentador()}" onclick="PF('tablaCaballeroDeportivaCalentador').show()"/> </li>
+                        <li> <p:commandLink  class="manu-item" value="Camisetas" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarCaballeroCamiseta()}" onclick="PF('tablaCaballeroCamiseta').show()"/> </li>
+                    </ol>
+                </li>
+                <li class="menu-item">
+                    <a href="#0" onselect="#{catalogoBean.generarCatalogoInfantil()}" onclick="PF('tablaInfantil').show()">Infantíl</a>
+                    <ol class="sub-menu">
+                        <li> <p:commandLink  class="manu-item" value="Niño" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarCatalogoNiño()}" onclick="PF('tablaNiño').show()"/> </li>
+                        <li> <p:commandLink  class="manu-item" value="Niña" style="text-decoration: none;" 
+                                             onstart="#{catalogoBean.generarCatalogoNiña()}" onclick="PF('tablaNiña').show()"/> </li>
+                    </ol>
+                </li>
+
+            </ol>
+        </nav>
+
+        <div align="right">
+
+            <div class="buttons">
+                <!--                <p:linkButton outcome="pruebasSesiones" value="Iniciar Sesion" icon="pi pi-user" style="icon-size: 3rem" styleClass="rounded-button ui-button-danger">
+                                </p:linkButton>-->
+                <button class="btn-hover color-8" onclick="location.href = 'pruebasSesiones.xhtml'">Iniciar Sesion</button>
+
+            </div>
+        </div>
+
+        <!--</div>-->
+        <div class="row">
+            <div class="contenido">
+                <div class="card">
+                    <div class="untitled">
+                        <div class="untitled__slides">
+                            <div class="untitled__slide">
+                                <div class="untitled__slideBg"></div>
+                                <div class="untitled__slideContent">
+
+                                    <span>Conoce nuestras ofertas</span>
+                                    <a class="button" href="catalogo.xhtml" target="contenido">Ir a productos</a>
+                                </div>
+                            </div>
+                            <div class="untitled__slide">
+                                <div class="untitled__slideBg"></div>
+                                <div class="untitled__slideContent">
+
+                                    <span> Nuevos modelos</span> 
+
+                                    <a class="button" href="catalogo.xhtml" target="contenido">Ir a productos</a>
+                                </div>
+                            </div>
+                            <div class="untitled__slide">
+                                <div class="untitled__slideBg"></div>
+                                <div class="untitled__slideContent">
+                                    <span>Todo lo que necesitas</span> 
+
+                                    <a class="button" href="catalogo.xhtml" target="contenido">Ir a productos</a>
+                                </div>
+                            </div>
+                            <div class="untitled__slide">
+                                <div class="untitled__slideBg"></div>
+                                <div class="untitled__slideContent">
+                                    <span>Para todo tipo</span> 
+
+                                    <a class="button" href="catalogo.xhtml" target="contenido">Ir a productos</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="untitled__shutters"></div>
+                    </div>
+                </div>
+                <div class="gallery-image">
+                    <div class="img-box">
+                        <img  src="https://i.ytimg.com/vi/P9FaZM0mnak/maxresdefault.jpg"/> 
+                        <div class="transparent-box">
+                            <div class="caption ">
+                                <p>NUEVOS MODELOS DE BLUSAS</p>
+                                <div class="a2">
+                                    <a href="pruebasSesiones.xhtml" style="text-decoration:none" tarjet="contenido"> <h1 class="opacity-low" style="color: #FFFFFF">INICIA SESIÓN</h1></a>   
+                                </div>
+
+
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="img-box">
+                        <img src="https://modaellas.com//wp-content/uploads/2018/12/fast-fashion-vs-slow-fashion-diferencias-ventajas-y-desventajas6-600x399.jpg" alt="" />
+                        <div class="transparent-box">
+                            <div class="caption">
+                                <p>VISITA NUESTRA TIENDA FISICA</p>
+                                <a href="mapa.xhtml" style="text-decoration:none" tarjet="contenido"> <h1 class="opacity-low" style="color: #FFFFFF">ABRIR MAPA</h1></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="img-box">
+                        <img src="https://img.vixdata.io/pd/jpg-large/es/sites/default/files/m/mujer-estilo-rock.jpg" alt="" />
+                        <div class="transparent-box">
+                            <div class="caption">
+                                <p>% DESCUENTOS DE LOCURA %</p>
+                                <a href="pruebasSesiones.xhtml" style="text-decoration:none" tarjet="contenido"> <h1 class="opacity-low" style="color: #FFFFFF">INICIA SESIÓN</h1></a>  
+                            </div>
+                        </div>
+                    </div>
+                    <div class="img-box">
+                        <img src="https://www.ecestaticos.com/imagestatic/clipping/fa9/a06/fa9a0677c486e65e3f56cf8f3c8103fa/los-basicos-de-lujo-que-comprar-en-el-black-friday.jpg?mtime=1622712860" alt="" />
+                        <div class="transparent-box">
+                            <div class="caption">
+                                <p>TODO A TUS MANOS 7w7</p>
+                                <a href="pruebasSesiones.xhtml" style="text-decoration:none" tarjet="contenido"> <h1 class="opacity-low" style="color: #FFFFFF">INICIA SESIÓN</h1></a>   
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="img-box">
+                        <img src="https://www.hogarmania.com/archivos/201711/moda-hombres-gabardina-1280x720x80xX.jpg" alt="" />
+                        <div class="transparent-box">
+                            <div class="caption">
+                                <p>NUEVOS MODELOS DE CHAQUETAS</p>
+                                <a href="pruebasSesiones.xhtml" style="text-decoration:none" tarjet="contenido"> <h1 class="opacity-low" style="color: #FFFFFF">INICIA SESIÓN</h1></a>  
+                            </div>
+                        </div> 
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-center ">
+            <a href="https://twitter.com/"> <i class="fa fa-twitter fa-4x icon-3d"></i></a>
+            <a href="https://facebook.com/"> <i class="fa fa-facebook fa-4x icon-3d"></i></a>
+            <a href="https://instagram.com/"><i class="fa fa-instagram fa-4x icon-3d"></i></a>
+            <a href="https://webwhatsapp.com/"> <i class="fa fa-whatsapp fa-4x icon-3d"></i></a>
+            <h2 style="color:white">YPS Fashion Store. Todos los derechos Reservados</h2>
+        </div>
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDama" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo" showDetail="true"/>
+            <p:dataGrid id="tabla_dama" var="prenda" value="#{catalogoBean.catalogoDama}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Dama
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaCalzado" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_1_1" showDetail="true"/>
+            <p:dataGrid id="tabla_dama_1_1" var="prenda" value="#{catalogoBean.catalogoDamaCalzado}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Dama
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaInteriorPijama" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_1_2" showDetail="true"/>
+            <p:dataGrid id="tabla_dama_1_2" var="prenda" value="#{catalogoBean.catalogoDamaInteriorPijama}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Dama
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaCamisaFormal" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_1_3" showDetail="true"/>
+            <p:dataGrid id="tabla_dama_1_3" var="prenda" value="#{catalogoBean.catalogoDamaCamisaFormal}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Dama
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaPantalon" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_1_4" showDetail="true"/>
+            <p:dataGrid id="tabla_dama_1_4" var="prenda" value="#{catalogoBean.catalogoDamaPantalon}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Dama
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaAbrigoCalentador" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_1_5" showDetail="true"/>
+            <p:dataGrid id="tabla_dama_1_5" var="prenda" value="#{catalogoBean.catalogoDamaAbrigoCalentador}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Dama
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaBlusa" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_1_6" showDetail="true"/>
+            <p:dataGrid id="tabla_dama_1_6" var="prenda" value="#{catalogoBean.catalogoDamaBlusa}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Dama
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaVestido" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_1_7" showDetail="true"/>
+            <p:dataGrid id="tabla_dama_1_7" var="prenda" value="#{catalogoBean.catalogoDamaVestido}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Dama
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballero" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_2" showDetail="true"/>
+            <p:dataGrid id="tabla_caballero" var="prenda" value="#{catalogoBean.catalogoCaballero}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Caballero
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroCalzado" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_2_1" showDetail="true"/>
+            <p:dataGrid id="tabla_caballero_1" var="prenda" value="#{catalogoBean.catalogoCaballeroCalzado}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Caballero
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroInteriorPijama" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_2_2" showDetail="true"/>
+            <p:dataGrid id="tabla_caballero_2" var="prenda" value="#{catalogoBean.catalogoCaballeroInteriorPijama}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Caballero
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroCamisaFormal" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_2_3" showDetail="true"/>
+            <p:dataGrid id="tabla_caballero_3" var="prenda" value="#{catalogoBean.catalogoCaballeroCamisaFormal}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Caballero
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroPantalonBermuda" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_2_4" showDetail="true"/>
+            <p:dataGrid id="tabla_caballero_4" var="prenda" value="#{catalogoBean.catalogoCaballeroPantalonBermuda}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Caballero
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroAbrigo" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_2_5" showDetail="true"/>
+            <p:dataGrid id="tabla_caballero_5" var="prenda" value="#{catalogoBean.catalogoCaballeroAbrigo}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Caballero
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroDeportivaCalentador" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_2_6" showDetail="true"/>
+            <p:dataGrid id="tabla_caballero_6" var="prenda" value="#{catalogoBean.catalogoCaballeroDeportivaCalentador}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Caballero
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroCamiseta" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_2_7" showDetail="true"/>
+            <p:dataGrid id="tabla_caballero_7" var="prenda" value="#{catalogoBean.catalogoCaballeroCamiseta}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Caballero
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaInfantil" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_3" showDetail="true"/>
+            <p:dataGrid id="tabla_infantil" var="prenda" value="#{catalogoBean.catalogoInfantil}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Infantil
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaNiño" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_3_1" showDetail="true"/>
+            <p:dataGrid id="tabla_infantil_1" var="prenda" value="#{catalogoBean.catalogoNiño}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Infantil
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+
+        <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaNiña" draggable="false" responsive="true" height="800px" width="2000px">
+            <p:growl id="messages_catalogo_3_2" showDetail="true"/>
+            <p:dataGrid id="tabla_infantil_2" var="prenda" value="#{catalogoBean.catalogoNiña}" columns="4" layout="grid"
+                        rows="12" paginator="true"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <f:facet name="header">
+                    Prendas Infantil
+                    <div align="right">
+                        <p:linkButton   onclick="indexCuerpo" style="background:transparent; border: none;">
+                            <h:graphicImage library="images" name="regreso.png"  />
+                        </p:linkButton>
+                    </div>
+                </f:facet>
+                <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                    <div class="product-grid-item-top ">
+                        <div>
+                            <i class="pi pi-tag product-category-icon "/>
+                            <h3 class="product-category ">#{prenda.categoria}</h3>
+                        </div>
+                    </div>
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                    </div> 
+                    <div>
+                        <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                    </div>
+                    <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                    <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                    <div className="ml-20">
+                    </div>
+                </div>
+            </p:dataGrid>
+        </p:dialog>
+    </h:body>
+</html>

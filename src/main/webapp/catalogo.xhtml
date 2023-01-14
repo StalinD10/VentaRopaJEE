@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Menu Prenda</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@3.0.1/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@3.0.1/themes/saga-blue.css"/>
+    </h:head>
+    <h:body>
+        <div class="product card">
+            <h:form id="form">
+                <p:dataGrid var="prenda" value="#{catalogoBean.catalogoGeneral}" columns="3" layout="grid"
+                            rows="12" paginator="true" id="cars"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+
+                    <f:facet name="header">
+                        Prendas disponibles
+                        <div align="right">
+                            <p:commandLink   action="indexCuerpo" target="contenido" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:commandLink>
+                        </div>
+                    </f:facet>
+
+                    <div class="product-grid-item card surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end  ">#{prenda.descripcion}</div>
+                        <div class="product-grid-item-bottom">
+                            <h:outputText value="#{prenda.precio}" styleClass="product-price">
+                                <f:convertNumber currencySymbol="$" type="currency"/>
+                            </h:outputText>
+                            <div className="ml-20">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </p:dataGrid>
+            </h:form>
+        </div>
+    </h:body>
+</html>

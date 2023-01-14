@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet library="css" name="estilosSesion.css"/>
+    </h:head>
+    <h:body>
+        <h2>Iniciar Sesion / Registrarse </h2>
+
+        <div class="container" id="container">
+            <div class="form-container sign-up-container">
+                <div class="crearCuenta">
+                    <h1>Crear Cuenta</h1>
+                </div>
+
+                <h:form id="form_client">
+                    <div class="card crud-demo">
+                        <p:growl id="messages_client" showDetail="true"/>
+
+                        <p:outputPanel id="manage-client-content" class="ui-fluid">
+
+                            <p:outputPanel rendered="#{not empty personaBean.clienteSeleccionado}">
+
+                                <p:inputText id="name" value="#{personaBean.personaSeleccionada.nombre}" required="true" placeholder="Nombre"/>
+                                <br>
+
+                                </br>
+                                <p:inputText id="lastname" value="#{personaBean.personaSeleccionada.apellido}" required="true" placeholder="Apellido"/>
+                                <br>
+
+                                </br>
+                                <p:inputText id="cell" value="#{personaBean.personaSeleccionada.telefono}" required="true" placeholder="Teléfono"/>
+                                <br>
+
+                                </br>
+                                <p:inputText id="dni" value="#{personaBean.personaSeleccionada.cedula}" required="true" placeholder="Cédula">
+                                    <f:validateLength minimum="10" ></f:validateLength>
+                                </p:inputText>
+                                <br>
+
+                                </br>
+                                <p:inputText id="mail" value="#{personaBean.personaSeleccionada.correo}" required="true" placeholder="Correo"/>
+                                <br>
+
+                                </br>
+                                <p:inputText id="address" value="#{personaBean.personaSeleccionada.direccion}" required="true" placeholder="Dirección"/>
+                                <br>
+
+                                </br>
+                                <p:inputText id="user" value="#{personaBean.clienteSeleccionado.usuario}" required="true" placeholder="Usuario"/>
+                                <br>
+
+                                </br>
+                                <p:password id="pass" value="#{personaBean.clienteSeleccionado.contrasena}" required="true" placeholder="Contraseña" feedback="true" weakLabel="Débil"
+                                            goodLabel="Buena" strongLabel="Fuerte" promptLabel="Ingresa tu contraseña"> 
+                                    <f:validateLength minimum="8">  </f:validateLength>
+                                </p:password>
+                            </p:outputPanel>
+
+                        </p:outputPanel>
+                        <br>
+
+                        </br>
+                        <p:commandButton value="Crear Cuenta" icon="pi pi-user-plus" update=":form_client:manage-client-content" 
+                                         process="manage-client-content @this" onclick="PF('verificar').show()">
+                            <f:actionListener binding="#{personaBean.verificarCorreo()}" />
+                        </p:commandButton>
+
+                    </div>
+
+                    <p:dialog id="verificar-panel" header="Verificar Correo" showEffect="fade" widgetVar="verificar" responsive="true" width="400px" 
+                              visible="false" draggable="false">
+                        <p:outputPanel id="verificar-correo" class="ui-fluid">
+                            <p:outputPanel>
+                                <div class="p-field">
+                                    <p:outputLabel>Codigo</p:outputLabel>
+                                    <p:inputText value="#{personaBean.codigoVerificacion}" required="true" placeholder="XXXXXX"/>
+                                </div>
+                            </p:outputPanel>
+                        </p:outputPanel>
+                        <f:facet name="footer">
+                            <p:commandButton value="Aceptar" icon="pi pi-check" process="verificar-correo @this" 
+                                             update=":form_client:verificar-correo" onclick="PF('verificar').hide()">
+                                <f:actionListener binding="#{personaBean.verificarCodigo()}" />
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('verificar').hide()"
+                                             class="ui-button-secondary">
+                                <f:actionListener binding="#{personaBean.limpiarValores()}" />
+                            </p:commandButton>
+                        </f:facet>
+                    </p:dialog>
+
+                </h:form>
+            </div>
+            <div class="form-container sign-in-container">
+                <p:growl id="msj"/>
+                <h:form>
+                    <h1>Inicia Sesion </h1>
+                    <br>
+                    </br>
+                    <div>
+
+                        <p:inputText id="txtUsuario" value="#{managedSesiones.usuario}" required="true" placeholder="Usuario" />
+                        <div align="left">
+
+                        </div>
+                        <br>
+                        </br>    
+                        <p:password id="txtClave" value="#{managedSesiones.contraseña}" required="true" placeholder="Contraseña"/>           
+                        <h:column />
+                        <br>
+                        </br>
+                        <p:commandButton  value="Iniciar Sesión" action="#{managedSesiones.iniciarSesion()}" styleClass="rounded-button ui-button-danger" 
+                                          update=":msj" icon="pi pi-sign-in" />
+                        <br>
+                        </br>
+                        <p:button value="¿Olvidaste tu contraseña?" styleClass="ui-button-help ui-button-flat" outcome="olvidoContraseña.xhtml" />
+                        <br>
+                        </br>
+                    </div>
+                </h:form> 
+            </div>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1>Cuenta Nueva</h1>
+                        <p>Ingresa tus Datos</p>
+                        <button class="ghost" id="signIn">Iniciar Sesion</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1>¿No tienes cuenta?</h1>
+                        <p>!Registrate!</p>
+                        <button class="ghost" id="signUp">Registrar Cuenta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h:outputScript library="js" name="animacionSesion.js"/>
+    </h:body>
+</html>
+

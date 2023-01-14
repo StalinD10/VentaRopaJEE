@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <h:outputStylesheet library="css" name="estilosOlvidoContra.css"/>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <input type="radio" name="select" id="slide_1" checked=""/>
+            <input type="radio" name="select" id="slide_2"/>
+            <input type="radio" name="select" id="slide_3"/>
+
+            <div class="slider">
+                <label for="slide_1" class="slide slide_1"></label>
+                <label for="slide_2" class="slide slide_2"></label>
+                <label for="slide_3" class="slide slide_3"></label>
+            </div>
+
+            <div class="inner_part">
+                <label for="slideImg" class="img">
+                    <img class="img_1" src="https://marketingalternativobtl.com/wp-content/uploads/2021/12/tipos-de-disenos-de-moda.jpg"/>
+                </label>
+                <div class="content content_1">
+                    <div class="title">Cambio de contraseña</div>
+                    <div class="text">
+                        Por tu seguridad, necesitamos tu correo electrónico.
+                    </div>
+                    <p:outputPanel>
+                        <div class="labelCorreo">
+                            <p:inputText value="" required="true" placeholder="ejemplo@ejemplo.com"/>    
+                        </div>
+                        <div class="botonEnviar">
+                            <p:commandButton type="button" value="Enviar" styleClass="rounded-button ui-button-info" icon="pi pi-send"/>
+                        </div>
+                        <div class="botonRegresar">
+                            <p:button icon="pi pi-arrow-left" styleClass="rounded-button ui-button-danger" outcome="indexCuerpo.xhtml"/>
+                        </div>
+
+                    </p:outputPanel>
+                </div>
+            </div>
+
+            <div class="inner_part">
+                <label for="slideImg" class="img">
+                    <img class="img_2" src="https://media.gq.com.mx/photos/60f9af36ba0148dc84c42665/3:4/w_1998,h_2664,c_limit/errores-al-comprar-un-traje-que-debes-evitar-talla.jpg"/>
+                </label>
+                <div class="content content_2">
+                    <div class="title">Verificación del Código</div>
+                    <div class="text">
+                        Digita el código de autenticación enviada al correo proporcionado.
+                    </div>
+                    <p:outputPanel>
+                        <div class="labelCorreo">
+                            <p:inputText value="" required="true" placeholder=""/>    
+                        </div>
+                        <div class="botonVerificar">
+                            <p:commandButton value="Verificar" styleClass="rounded-button ui-button-help" icon="pi pi-check-square" />
+                        </div>
+                        <div class="botonRegresar">
+                            <p:button icon="pi pi-arrow-left" styleClass="rounded-button ui-button-success" outcome="indexCuerpo.xhtml"/>
+                        </div>
+                    </p:outputPanel>
+                </div>
+            </div>
+
+            <div class="inner_part">
+                <label for="slideImg" class="img">
+                    <img class="img_3" src="http://estaticos.elmundo.es/assets/multimedia/imagenes/2016/02/17/14557149546274.jpg"/>
+                </label>
+                <div class="content content_3">
+                    <div class="title">Revisa tu correo</div>
+                    <div class="text">Si el código ingresado coincide, se te enviará un correo con tu usuario y contraseña.
+                        <br>
+
+                        </br>
+
+                        Gracias por preferirnos 7w7
+                    </div>
+                    <div class="botonRegresar3">
+                        <p:button icon="pi pi-arrow-left" styleClass="rounded-button ui-button-warning" outcome="indexCuerpo.xhtml"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

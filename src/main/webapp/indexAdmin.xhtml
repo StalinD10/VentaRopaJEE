@@ -1,0 +1,1834 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+
+        <f:facet name="first">
+            <f:event type="preRenderView" listener="#{permisos.verificarSesionAdmin()}" />
+        </f:facet>
+        <h:outputStylesheet library="css" name="estilosIndexAdmin.css"/>
+    </h:head>
+    <h:body>
+
+        <script type="text/javascript">
+            function exportChart() {
+                $('#output').empty().append(PF('chart').exportAsImage());
+                PF('dlg').show();
+            }
+            function exportChartp1() {
+                $('#output').empty().append(PF('prendas1').exportAsImage());
+                PF('dlg').show();
+            }
+            function exportChartp2() {
+                $('#output').empty().append(PF('prendas2').exportAsImage());
+                PF('dlg').show();
+            }
+            function exportChartp3() {
+                $('#output').empty().append(PF('prendas3').exportAsImage());
+                PF('dlg').show();
+            }
+            function exportChartp4() {
+                $('#output').empty().append(PF('prendas4').exportAsImage());
+                PF('dlg').show();
+            }
+            function exportChartp5() {
+                $('#output').empty().append(PF('prendas5').exportAsImage());
+                PF('dlg').show();
+            }
+            function exportChartc1() {
+                $('#output').empty().append(PF('clientes1').exportAsImage());
+                PF('dlg').show();
+            }
+        </script>
+
+        <div class="h1">
+            <h1>Selecciona la opción que deseas realizar</h1>
+        </div>
+
+        <h:form>
+            <div class="posicion">
+                <p:dock position="bottom" id="dock">
+                    <p:menuitem value="Editar Personas" icon="/resources/images/edit.png" onclick="PF('gestionP').show()"/>
+                    <p:menuitem value="Gestionar Usuarios" icon="/resources/images/group.png" onclick="PF('gestionU').show()"/>
+                    <p:menuitem value="Gestionar Administradores" icon="/resources/images/settings.png" onclick="PF('gestionA').show()"/>
+                    <p:menuitem value="Gestionar Prendas" icon="/resources/images/prenda.png" onclick="PF('gestionPr').show()"/>
+                    <p:menuitem value="Gestionar Opciones Ventas" icon="/resources/images/ropa.png" onclick="PF('gestionOp').show()"/>
+                    <p:menuitem value="Analítica" icon="/resources/images/analitica.png" onclick="PF('gestionAna').show()"/>
+                    <p:menuitem value="Gestionar Facturas" icon="/resources/images/invoice.png" onclick="PF('gestionF').show()"/>
+                    <p:menuitem value="Salir" icon="/resources/images/exit.png" actionListener="#{permisos.cerrarSesion()}" action="/indexCuerpo.xhtml"/>
+                </p:dock>
+            </div>
+        </h:form>
+
+        <p:dialog widgetVar="dlg" showEffect="fade" header="Grafico en imagen" resizable="false">
+            <p:outputPanel id="output" layout="block" style="width:500px;height:500px"/>
+        </p:dialog>
+
+        <p:dialog header="Analítica" widgetVar="gestionAna" height="700px" width="2000px" showEffect="fade" draggable="false">
+            <p:fieldset legend="Estadísticas Prendas" toggleable="true" toggleSpeed="500" collapsed="true">
+                <p:barChart model="#{estadisticaBean.barModel}" style="width: 100%; height: 500px;" widgetVar="prendas1" rendered="#{estadisticaBean.barModel != null}"/>
+                <br/>
+                <p:commandButton type="button" value="Export" icon="pi pi-eject" styleClass="ui-button-raised ui-button-help ui-button-flat" onclick="exportChartp1()"/>
+                <br/>
+                <p:barChart model="#{estadisticaBean.barModel2}" style="width: 100%; height: 500px;" widgetVar="prendas2" rendered="#{estadisticaBean.barModel2 != null}"/>
+                <br/>
+                <p:commandButton type="button" value="Export" icon="pi pi-eject" styleClass="ui-button-raised ui-button-help ui-button-flat" onclick="exportChartp2()"/>
+                <br/>
+                <p:barChart model="#{estadisticaBean.barModel3}" style="width: 100%; height: 500px;" widgetVar="prendas3" rendered="#{estadisticaBean.barModel3 != null}"/>
+                <br/>
+                <p:commandButton type="button" value="Export" icon="pi pi-eject" styleClass="ui-button-raised ui-button-help ui-button-flat" onclick="exportChartp3()"/>
+                <br/>
+                <p:barChart model="#{estadisticaBean.barModel4}" style="width: 100%; height: 500px;" widgetVar="prendas4" rendered="#{estadisticaBean.barModel4 != null}"/>
+                <br/>
+                <p:commandButton type="button" value="Export" icon="pi pi-eject" styleClass="ui-button-raised ui-button-help ui-button-flat" onclick="exportChartp4()"/>
+                <br/>
+                <p:barChart model="#{estadisticaBean.barModel5}" style="width: 100%; height: 500px;" widgetVar="prendas5" rendered="#{estadisticaBean.barModel5 != null}"/>
+                <br/>
+                <p:commandButton type="button" value="Export" icon="pi pi-eject" styleClass="ui-button-raised ui-button-help ui-button-flat" onclick="exportChartp5()"/>
+                <br/>
+            </p:fieldset>
+            <p:divider align="horizontal"/>
+            <p:fieldset legend="Estadísticas Clientes" toggleable="true" toggleSpeed="500" collapsed="true">
+                <p:pieChart model="#{estadisticaBean.pieModel}" style="width: 100%; height: 700px;" widgetVar="clientes1" rendered="#{estadisticaBean.pieModel != null}"/>
+                <br/>
+                <p:commandButton type="button" value="Export" icon="pi pi-eject" styleClass="ui-button-raised ui-button-help ui-button-flat" onclick="exportChartc1()"/>
+            </p:fieldset>
+            <p:divider align="horizontal"/>
+            <p:fieldset legend="Estadísticas Ventas" toggleable="true" toggleSpeed="500" collapsed="true">
+                <p:barChart model="#{estadisticaBean.hbarModel}" style="width: 100%; height: 500px;" widgetVar="chart" rendered="#{estadisticaBean.hbarModel != null}"/>
+                <br/>
+                <p:commandButton type="button" value="Export" icon="pi pi-eject" styleClass="ui-button-raised ui-button-help ui-button-flat" onclick="exportChart()"/>
+            </p:fieldset>
+        </p:dialog>
+
+        <p:dialog header="Usuarios" widgetVar="gestionU" height="700px" width="2000px" showEffect="fade" draggable="false">
+            <h:form id="form_client">
+                <div class="card crud-demo">
+                    <p:growl id="messages_client" showDetail="true"/>
+
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:commandButton value="Agregar Cliente" icon="pi pi-plus" update=":form_client:manage-client-content" 
+                                             oncomplete="PF('manageClientDialog').show()" styleClass="ui-button-success" 
+                                             style="margin-right: .5rem">
+                                <p:resetInput target=":form_client:manage-client-content"/>
+                            </p:commandButton>
+                            <p:commandButton id="delete-clients-button" value="#{personaBean.deleteButtonMessage}"
+                                             icon="pi pi-trash" actionListener="#{personaBean.eliminarClientes}"
+                                             styleClass="ui-button-danger" disabled="#{!personaBean.tieneClientesSeleccionados()}"
+                                             update="@this">
+                                <p:confirm header="Confirmacion" message="Eliminar clientes seleccionados?"
+                                           icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+
+                    <p:dataTable id="dt-clients" widgetVar="dtClients" var="client" value="#{personaBean.clientes}"
+                                 reflow="true" styleClass="clients-table"
+                                 selection="#{personaBean.clientesSeleccionados}" rowKey="#{client.idCliente}" paginator="true"
+                                 rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                        <f:facet name="header">
+                            <div class="clients-table-header">
+                                <i class="pi pi-users"></i>
+                                <span style="font-weight: bold">CLIENTES</span>
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" onkeyup="PF('dtClients').filter()" placeholder="Search"/>
+                                </span>
+                            </div>
+                        </f:facet>
+
+                        <p:ajax event="rowSelect" update=":form_client:delete-clients-button"/>
+                        <p:ajax event="rowUnselect" update=":form_client:delete-clients-button"/>
+                        <p:ajax event="rowSelectCheckbox" update=":form_client:delete-clients-button"/>
+                        <p:ajax event="rowUnselectCheckbox" update=":form_client:delete-clients-button"/>
+                        <p:ajax event="toggleSelect" update=":form_client:delete-clients-button"/>
+
+                        <p:column selectionMode="multiple" exportable="false" width="20px"></p:column>
+
+                        <p:column headerText="ID Cliente" sortBy="#{client.idCliente}" filterBy="#{client.idCliente}" width="70px">
+                            <h:outputText value="#{client.idCliente}"/>
+                        </p:column>
+                        <p:column headerText="ID Persona" sortBy="#{client.idPersona.idPersona}" filterBy="#{client.idPersona.idPersona}">
+                            <h:outputText value="#{client.idPersona.idPersona}"/>
+                        </p:column>
+                        <p:column headerText="Usuario" sortBy="#{client.usuario}" filterBy="#{client.usuario}">
+                            <h:outputText value="#{client.usuario}"/>
+                        </p:column>
+                        <p:column headerText="Contraseña" sortBy="#{client.contrasena}">
+                            <h:outputText value="#{client.contrasena}"/>
+                        </p:column>
+                        <p:column headerText="Opciones" exportable="false" width="150px">
+                            <p:commandButton icon="pi pi-pencil" update=":form_client:edit-client-content"
+                                             oncomplete="PF('editClientDialog').show()"
+                                             styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{client}" target="#{personaBean.clienteSeleccionado}"/>
+                                <p:resetInput target=":form_client:edit-client-content"/>
+                            </p:commandButton>
+                            <p:spacer width="10px" height="20px"/>
+                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                             oncomplete="PF('deleteClientDialog').show()">
+                                <f:setPropertyActionListener value="#{client}" target="#{personaBean.clienteSeleccionado}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dialog header="Modificar Cliente" showEffect="fade" widgetVar="editClientDialog" responsive="true" width="400px">
+                        <p:outputPanel id="edit-client-content" class="ui-fluid">
+                            <p:outputPanel rendered="#{not empty personaBean.clienteSeleccionado}">
+                                <div class="p-field">
+                                    <p:outputLabel for="user_e">Usuario</p:outputLabel>
+                                    <p:inputText id="user_e" value="#{personaBean.clienteSeleccionado.usuario}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="pass_e">Contraseña</p:outputLabel>
+                                    <p:inputText id="pass_e" value="#{personaBean.clienteSeleccionado.contrasena}" required="true"/>
+                                </div>
+                            </p:outputPanel>
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_client:edit-client-content" 
+                                             process="edit-client-content @this" onclick="PF('editClientDialog').hide()">
+                                <f:actionListener binding="#{personaBean.modificarCliente()}" />
+                                <f:actionListener binding="#{personaBean.reiniciarClienteSeleccionada()}" />
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editClientDialog').hide()"
+                                             class="ui-button-secondary"/>
+                        </f:facet>
+                    </p:dialog>
+
+                    <p:dialog header="Nuevo Cliente" showEffect="fade" widgetVar="manageClientDialog" responsive="true" width="400px">
+                        <p:outputPanel id="manage-client-content" class="ui-fluid">
+                            <p:outputPanel rendered="#{not empty personaBean.clienteSeleccionado}">
+                                <div class="p-field">
+                                    <p:outputLabel for="name">Nombre</p:outputLabel>
+                                    <p:inputText id="name" value="#{personaBean.personaSeleccionada.nombre}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="lastname">Apellido</p:outputLabel>
+                                    <p:inputText id="lastname" value="#{personaBean.personaSeleccionada.apellido}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="cell">Telefono</p:outputLabel>
+                                    <p:inputText id="cell" value="#{personaBean.personaSeleccionada.telefono}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="dni">Cedula</p:outputLabel>
+                                    <p:inputText id="dni" value="#{personaBean.personaSeleccionada.cedula}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="mail">Correo</p:outputLabel>
+                                    <p:inputText id="mail" value="#{personaBean.personaSeleccionada.correo}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="address">Direccion</p:outputLabel>
+                                    <p:inputText id="address" value="#{personaBean.personaSeleccionada.direccion}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="user">Usuario</p:outputLabel>
+                                    <p:inputText id="user" value="#{personaBean.clienteSeleccionado.usuario}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="pass">Contraseña</p:outputLabel>
+                                    <p:inputText id="pass" value="#{personaBean.clienteSeleccionado.contrasena}" required="true"/>
+                                </div>
+                            </p:outputPanel>
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_client:manage-client-content" 
+                                             process="manage-client-content @this">
+                                <f:actionListener binding="#{personaBean.agregarPersona()}" />
+                                <f:actionListener binding="#{personaBean.reiniciarPersonaSeleccionada()}" />
+                                <f:actionListener binding="#{personaBean.agregarCliente()}" />
+                                <f:actionListener binding="#{personaBean.reiniciarClienteSeleccionada()}" />
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageClientDialog').hide()"
+                                             class="ui-button-secondary"/>
+                        </f:facet>
+                    </p:dialog>
+
+                    <p:dialog widgetVar="deleteClientDialog" showEffect="fade" width="300" header="Confirmar">
+                        <p:commandButton value="Si" icon="pi pi-check" actionListener="#{personaBean.eliminarCliente}"
+                                         process="@this" oncomplete="PF('deleteClientDialog').hide()"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                         onclick="PF('deleteClientDialog').hide()"/>
+                    </p:dialog>
+
+                    <p:dialog showEffect="fade" width="300">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                         icon="pi pi-times"/>
+                    </p:dialog>
+                </div>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Facturas" widgetVar="gestionF" height="700px" width="2000px" showEffect="fade" draggable="false">
+            <h:form id="form_factura">
+                <div class="card crud-demo">
+                    <p:growl id="messages_factura" showDetail="true"/>
+
+                    <p:dialog widgetVar="deleteFacturaDialog" showEffect="fade" width="300" header="Confirmar">
+                        <p:commandButton value="Si" icon="pi pi-check" actionListener="#{facturacionBean.eliminarFactura}"
+                                         process="@this" oncomplete="PF('deleteFacturaDialog').hide()"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                         onclick="PF('deleteFacturaDialog').hide()"/>
+                    </p:dialog>
+
+                    <p:dialog showEffect="fade" width="300">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                         icon="pi pi-times"/>
+                    </p:dialog>
+
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:commandButton id="delete-facturas-button" value="#{facturacionBean.deleteButtonMessageFactura}"
+                                             icon="pi pi-trash" actionListener="#{facturacionBean.eliminarFacturas}"
+                                             styleClass="ui-button-danger" disabled="#{!facturacionBean.tieneFacturasSeleccionadas()}"
+                                             update="@this">
+                                <p:confirm header="Confirmacion" message="Eliminar facturas seleccionadas?"
+                                           icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                        </p:toolbarGroup>
+                        <p:toolbarGroup align="right">
+                            <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
+                                <p:dataExporter type="pdf" target="dt-facturas" fileName="facturas"/>
+                            </p:commandButton>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+
+                    <p:dataTable id="dt-facturas" widgetVar="dtFacturas" var="factura" value="#{facturacionBean.facturas}"
+                                 reflow="true" styleClass="facturas-table"
+                                 selection="#{facturacionBean.facturasSeleccionadas}" rowKey="#{factura.idFactura}" paginator="true"
+                                 rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                        <f:facet name="header">
+                            <div class="products-table-header">
+                                <span style="font-weight: bold">FACTURAS</span>
+
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" onkeyup="PF('dtFacturas').filter()" placeholder="Search"/>
+                                </span>
+
+                            </div>
+                        </f:facet>
+
+                        <p:ajax event="rowSelect" update=":form_factura:delete-facturas-button"/>
+                        <p:ajax event="rowUnselect" update=":form_factura:delete-facturas-button"/>
+                        <p:ajax event="rowSelectCheckbox" update=":form_factura:delete-facturas-button"/>
+                        <p:ajax event="rowUnselectCheckbox" update=":form_factura:delete-facturas-button"/>
+                        <p:ajax event="toggleSelect" update=":form_factura:delete-facturas-button"/>
+
+                        <p:column selectionMode="multiple" exportable="false" width="20px"></p:column>
+
+                        <p:column headerText="ID Factura" sortBy="#{factura.idFactura}" filterBy="#{factura.idFactura}" width="70px">
+                            <h:outputText value="#{factura.idFactura}"/>
+                        </p:column>
+                        <p:column headerText="Nombre Cliente" sortBy="#{factura.idCliente.idPersona.nombre}" filterBy="#{factura.idCliente.idPersona.nombre}">
+                            <h:outputText value="#{factura.idCliente.idPersona.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Cédula Cliente" sortBy="#{factura.idCliente.idPersona.cedula}" filterBy="#{factura.idCliente.idPersona.cedula}">
+                            <h:outputText value="#{factura.idCliente.idPersona.cedula}"/>
+                        </p:column>
+                        <p:column headerText="Fecha de Emisión" sortBy="#{factura.fechaEmision}">
+                            <h:outputText value="#{factura.fechaEmision}"/>
+                        </p:column>
+                        <p:column headerText="Prendas Ordenadas">
+                            <p:selectOneMenu label="Prendas" alwaysDisplayLabel="true">
+                                <f:selectItems value="#{factura.idDetalle.prendaList}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column headerText="Valor Total" sortBy="#{factura.precioTotal}">
+                            <h:outputText value="#{factura.precioTotal}"/>
+                        </p:column>
+                        <p:column headerText="Opciones" exportable="false" width="150px">
+                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                             oncomplete="PF('deleteFacturaDialog').show()">
+                                <f:setPropertyActionListener value="#{factura}" target="#{facturacionBean.facturaSeleccionada}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                </div>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Personas" widgetVar="gestionP" height="700px" width="2000px" showEffect="fade" draggable="false">
+            <h:form id="form_person">
+                <div class="card crud-demo">
+                    <p:growl id="messages_person" showDetail="true"/>
+
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:commandButton value="Agregar Persona" icon="pi pi-plus" update=":form_person:manage-person-content" 
+                                             oncomplete="PF('managePersonDialog').show()" styleClass="ui-button-success" 
+                                             style="margin-right: .5rem">
+                                <p:resetInput target=":form_person:manage-person-content"/>
+                            </p:commandButton>
+                            <p:commandButton id="delete-people-button" value="#{personaBean.deleteButtonMessagePersona}"
+                                             icon="pi pi-trash" actionListener="#{personaBean.eliminarPersonas()}"
+                                             styleClass="ui-button-danger" disabled="#{!personaBean.tienePersonasSeleccionadas()}"
+                                             update="@this">
+                                <p:confirm header="Confirmacion" message="Eliminar personas seleccionadas?"
+                                           icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+
+                    <p:dataTable id="dt-people" widgetVar="dtPeople" var="person" value="#{personaBean.personas}"
+                                 reflow="true" styleClass="people-table"
+                                 selection="#{personaBean.personasSeleccionadas}" rowKey="#{person.idPersona}" paginator="true"
+                                 rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                        <f:facet name="header">
+                            <div class="people-table-header">
+                                <i class="pi pi-users"></i>
+                                <span style="font-weight: bold">PERSONAS</span>
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" onkeyup="PF('dtPeople').filter()" placeholder="Search"/>
+                                </span>
+                            </div>
+                        </f:facet>
+
+                        <p:ajax event="rowSelect" update=":form_person:delete-people-button"/>
+                        <p:ajax event="rowUnselect" update=":form_person:delete-people-button"/>
+                        <p:ajax event="rowSelectCheckbox" update=":form_person:delete-people-button"/>
+                        <p:ajax event="rowUnselectCheckbox" update=":form_person:delete-people-button"/>
+                        <p:ajax event="toggleSelect" update=":form_person:delete-people-button"/>
+
+                        <p:column selectionMode="multiple" exportable="false" width="20px"></p:column>
+
+                        <p:column headerText="ID Persona" sortBy="#{person.idPersona}" filterBy="#{person.idPersona}" width="70px">
+                            <h:outputText value="#{person.idPersona}"/>
+                        </p:column>
+                        <p:column headerText="Nombre" sortBy="#{person.nombre}" filterBy="#{person.nombre}">
+                            <h:outputText value="#{person.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Apellido" sortBy="#{person.apellido}" filterBy="#{person.apellido}">
+                            <h:outputText value="#{person.apellido}"/>
+                        </p:column>
+                        <p:column headerText="Cedula" sortBy="#{person.cedula}" filterBy="#{person.cedula}">
+                            <h:outputText value="#{person.cedula}"/>
+                        </p:column>
+                        <p:column headerText="Correo" sortBy="#{person.correo}">
+                            <h:outputText value="#{person.correo}"/>
+                        </p:column>
+                        <p:column headerText="Direccion" sortBy="#{person.direccion}" filterBy="#{person.direccion}">
+                            <h:outputText value="#{person.direccion}"/>
+                        </p:column>
+                        <p:column headerText="Telefono" sortBy="#{person.telefono}" filterBy="#{person.telefono}">
+                            <h:outputText value="#{person.telefono}"/>
+                        </p:column>
+                        <p:column headerText="Opciones" exportable="false" width="150px">
+                            <p:commandButton icon="pi pi-pencil" update=":form_person:edit-person-content"
+                                             oncomplete="PF('editPersonDialog').show()"
+                                             styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{person}" target="#{personaBean.personaSeleccionada}"/>
+                                <p:resetInput target=":form_person:edit-person-content"/>
+                            </p:commandButton>
+                            <p:spacer width="10px" height="20px"/>
+                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                             oncomplete="PF('deletePersonDialog').show()">
+                                <f:setPropertyActionListener value="#{person}" target="#{personaBean.personaSeleccionada}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dialog header="Modificar Persona" showEffect="fade" widgetVar="editPersonDialog" responsive="true" width="400px">
+                        <p:outputPanel id="edit-person-content" class="ui-fluid">
+                            <p:outputPanel rendered="#{not empty personaBean.personaSeleccionada}">
+                                <div class="p-field">
+                                    <p:outputLabel for="nombre_1">Nombre</p:outputLabel>
+                                    <p:inputText id="nombre_1" value="#{personaBean.personaSeleccionada.nombre}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="apellido_1">Apellido</p:outputLabel>
+                                    <p:inputText id="apellido_1" value="#{personaBean.personaSeleccionada.apellido}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="dni_1">Cedula</p:outputLabel>
+                                    <p:inputText id="dni_1" value="#{personaBean.personaSeleccionada.cedula}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="mail_1">Correo</p:outputLabel>
+                                    <p:inputText id="mail_1" value="#{personaBean.personaSeleccionada.correo}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="direccion_1">Direccion</p:outputLabel>
+                                    <p:inputText id="direccion_1" value="#{personaBean.personaSeleccionada.direccion}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="telefono_1">Telefono</p:outputLabel>
+                                    <p:inputText id="telefono_1" value="#{personaBean.personaSeleccionada.telefono}" required="true"/>
+                                </div>
+                            </p:outputPanel>
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_person:edit-person-content" 
+                                             process="edit-person-content @this" onclick="PF('editPersonDialog').hide()">
+                                <f:actionListener binding="#{personBean.modificarPersona()}" />
+                                <f:actionListener binding="#{personBean.reiniciarPersonaSeleccionada()}" />
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editPersonDialog').hide()"
+                                             class="ui-button-secondary"/>
+                        </f:facet>
+                    </p:dialog>
+
+                    <p:dialog header="Nueva Persona" showEffect="fade" widgetVar="managePersonDialog" responsive="true" width="400px">
+                        <p:outputPanel id="manage-person-content" class="ui-fluid">
+                            <p:outputPanel rendered="#{not empty personaBean.personaSeleccionada}">
+                                <div class="p-field">
+                                    <p:outputLabel for="nombre_2">Nombre</p:outputLabel>
+                                    <p:inputText id="nombre_2" value="#{personaBean.personaSeleccionada.nombre}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="apellido_2">Apellido</p:outputLabel>
+                                    <p:inputText id="apellido_2" value="#{personaBean.personaSeleccionada.apellido}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="dni_2">Cedula</p:outputLabel>
+                                    <p:inputText id="dni_2" value="#{personaBean.personaSeleccionada.cedula}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="mail_2">Correo</p:outputLabel>
+                                    <p:inputText id="mail_2" value="#{personaBean.personaSeleccionada.correo}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="direccion_2">Direccion</p:outputLabel>
+                                    <p:inputText id="direccion_2" value="#{personaBean.personaSeleccionada.direccion}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="telefono_2">Telefono</p:outputLabel>
+                                    <p:inputText id="telefono_2" value="#{personaBean.personaSeleccionada.telefono}" required="true"/>
+                                </div>
+                            </p:outputPanel>
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_person:manage-person-content" 
+                                             process="manage-person-content @this">
+                                <f:actionListener binding="#{personaBean.agregarPersona()}" />
+                                <f:actionListener binding="#{personaBean.reiniciarPersonaSeleccionada()}" />
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('managePersonDialog').hide()"
+                                             class="ui-button-secondary"/>
+                        </f:facet>
+                    </p:dialog>
+
+                    <p:dialog widgetVar="deletePersonDialog" showEffect="fade" width="300" header="Confirmar">
+                        <p:commandButton value="Si" icon="pi pi-check" actionListener="#{personaBean.eliminarPersona()}"
+                                         process="@this" oncomplete="PF('deletePersonDialog').hide()"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                         onclick="PF('deletePersonDialog').hide()"/>
+                    </p:dialog>
+
+                    <p:dialog showEffect="fade" width="300">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                         icon="pi pi-times"/>
+                    </p:dialog>
+                </div>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Prendas" widgetVar="gestionPr" height="700px" width="2000px" showEffect="fade" draggable="false">
+            <h:form id="form_prenda">
+                <div class="card crud-demo">
+                    <p:growl id="messages_prenda" showDetail="true"/>
+
+                    <p:dialog header="Modificar Prenda" showEffect="fade" widgetVar="editPrendaDialog" width="800px" height="450px" position="center">
+                        <p:outputPanel id="edit-prenda-content" class="ui-fluid">
+                            <p:outputPanel rendered="#{not empty prendaBean.prendaSeleccionada}">
+                                <p:graphicImage name="#{prendaBean.prendaSeleccionada.rutaImagen}" library="images" styleClass="product-image"
+                                                rendered="#{not empty prendaBean.prendaSeleccionada.rutaImagen}"/>
+                                <p:fileUpload mode="advanced"
+                                              label="Añadir Imagen"
+                                              multiple="false"
+                                              sizeLimit="10240000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                              invalidSizeMessage="Imagenes de máximo 100 KB"
+                                              invalidFileMessage="solamente gif | jpg | jpeg | png esta permitido"
+                                              update="messages_prenda edit-prenda-content"
+                                              listener="#{prendaBean.cargarImagenPrenda}"/>
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="nombre_1">Nombre Prenda</p:outputLabel>
+                                        <p:inputText id="nombre_1" value="#{prendaBean.prendaSeleccionada.nombre}" required="true"/>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="precio_1">Precio Prenda</p:outputLabel>
+                                        <p:inputNumber id="precio_1" value="#{prendaBean.prendaSeleccionada.precio}" required="true"/>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="cant_1">Cantidad de Prendas</p:outputLabel>
+                                        <p:inputText id="cant_1" value="#{prendaBean.prendaSeleccionada.cantidad}" required="true"/>
+                                    </div>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="desc_1">Descripción</p:outputLabel>
+                                    <p:inputTextarea id="desc_1" value="#{prendaBean.prendaSeleccionada.descripcion}" rows="5" 
+                                                     cols="33" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="cat_1">Categoría</p:outputLabel>
+                                    <p:selectOneRadio id="cat_1" value="#{prendaBean.prendaSeleccionada.categoria}" layout="responsive" columns="3">
+                                        <f:selectItem itemLabel="Calzado" itemValue="Calzado"/>
+                                        <f:selectItem itemLabel="Ropa Interior" itemValue="Ropa Interior"/>
+                                        <f:selectItem itemLabel="Pijamas" itemValue="Pijamas"/>
+                                        <f:selectItem itemLabel="Camiseta" itemValue="Camiseta"/>
+                                        <f:selectItem itemLabel="Camisa" itemValue="Camisa"/>
+                                        <f:selectItem itemLabel="Pantalon" itemValue="Pantalon"/>
+                                        <f:selectItem itemLabel="Abrigo" itemValue="Abrigo"/>
+                                        <f:selectItem itemLabel="Calentador" itemValue="Calentador"/>
+                                        <f:selectItem itemLabel="Blusas" itemValue="Blusa"/>
+                                        <f:selectItem itemLabel="Vestido" itemValue="Vestido"/>
+                                        <f:selectItem itemLabel="Formal" itemValue="Formal"/>
+                                        <f:selectItem itemLabel="Bermudas" itemValue="Bermudas"/>
+                                        <f:selectItem itemLabel="Deportiva" itemValue="Deportiva"/>
+                                    </p:selectOneRadio>
+                                </div>
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="grid8">Colores</p:outputLabel>
+                                        <p:selectManyCheckbox id="grid8" value="#{prendaBean.prendaSeleccionada.colorList}" layout="responsive" columns="3">
+                                            <f:selectItems value="#{prendaBean.colores}" var="color" itemLabel="#{color.nombreColor}" />
+                                        </p:selectManyCheckbox>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="grid9">Impuestos</p:outputLabel>
+                                        <p:selectManyCheckbox id="grid9" value="#{prendaBean.prendaSeleccionada.impuestoList}" layout="responsive" columns="3">
+                                            <f:selectItems value="#{prendaBean.impuestos}" var="taxe" itemLabel="#{taxe.nombreImpuesto}" />
+                                        </p:selectManyCheckbox>
+                                    </div>
+                                </div>
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="grid10">Descuentos</p:outputLabel>
+                                        <p:selectManyCheckbox id="grid10" value="#{prendaBean.prendaSeleccionada.descuentosList}" layout="responsive" columns="3">
+                                            <f:selectItems value="#{prendaBean.descuentos}" var="descount" itemLabel="#{descount.nombreDescuento}" />
+                                        </p:selectManyCheckbox>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="grid11">Tallas</p:outputLabel>
+                                        <p:selectManyCheckbox id="grid11" value="#{prendaBean.prendaSeleccionada.tallaList}" layout="responsive" columns="3">
+                                            <f:selectItems value="#{prendaBean.tallas}" var="size" itemLabel="#{size.talla}" />
+                                        </p:selectManyCheckbox>
+                                    </div>
+                                </div>
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="grid12">Géneros</p:outputLabel>
+                                        <p:selectManyCheckbox id="grid12" value="#{prendaBean.prendaSeleccionada.generoPersonaList}" layout="responsive" columns="3">
+                                            <f:selectItems value="#{prendaBean.generos}" var="gender" itemLabel="#{gender.nombreGenero}" />
+                                        </p:selectManyCheckbox>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="grid13">Materiales</p:outputLabel>
+                                        <p:selectManyCheckbox id="grid13" value="#{prendaBean.prendaSeleccionada.materialList}" layout="responsive" columns="3">
+                                            <f:selectItems value="#{prendaBean.materiales}" var="mat" itemLabel="#{mat.nombreMaterial}" />
+                                        </p:selectManyCheckbox>
+                                    </div>
+                                </div>
+                            </p:outputPanel>
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_prenda:edit-prenda-content" 
+                                             process="edit-prenda-content @this" onclick="PF('editPrendaDialog').hide()">
+                                <f:actionListener binding="#{prendaBean.modificarPrenda()}" />
+                                <f:actionListener binding="#{prendaBean.reiniciarPrendaSeleccionada()}" />
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editPrendaDialog').hide()"
+                                             class="ui-button-secondary"/>
+                        </f:facet>
+                    </p:dialog>
+
+                    <p:dialog header="Nueva Prenda" showEffect="fade" widgetVar="managePrendaDialog" width="800px" height="450px">
+                        <p:outputPanel id="manage-prenda-content" class="ui-fluid" >
+                            <p:outputPanel rendered="#{not empty prendaBean.prendaSeleccionada}">
+                                <div class="p-field">
+                                    <p:graphicImage name="#{prendaBean.prendaSeleccionada.rutaImagen}" library="images" styleClass="product-image"
+                                                    rendered="#{not empty prendaBean.prendaSeleccionada.rutaImagen}"/>
+                                    <p:fileUpload mode="advanced"
+                                                  label="Añadir Imagen"
+                                                  multiple="false"
+                                                  sizeLimit="102400" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                                  invalidSizeMessage="Imagenes de máximo 100 KB"
+                                                  invalidFileMessage="solamente gif | jpg | jpeg | png esta permitido"
+                                                  update="messages_prenda edit-prenda-content"
+                                                  listener="#{prendaBean.cargarImagenPrenda}"/>
+                                </div>
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="nombre_2">Nombre Prenda</p:outputLabel>
+                                        <p:inputText id="nombre_2" value="#{prendaBean.prendaSeleccionada.nombre}" required="true"/>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="precio_2">Precio Prenda</p:outputLabel>
+                                        <p:inputText id="precio_2" value="#{prendaBean.prendaSeleccionada.precio}" required="true"/>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="cant_2">Cantidad de Prendas</p:outputLabel>
+                                        <p:inputText id="cant_2" value="#{prendaBean.prendaSeleccionada.cantidad}" required="true"/>
+                                    </div>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="desc_2">Descripción</p:outputLabel>
+                                    <p:inputTextarea id="desc_2" value="#{prendaBean.prendaSeleccionada.descripcion}" rows="5" 
+                                                     cols="33" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="cat_2">Categoría</p:outputLabel>
+                                    <p:selectOneRadio id="cat_2" value="#{prendaBean.prendaSeleccionada.categoria}" layout="responsive" columns="3">
+                                        <f:selectItem itemLabel="Calzado" itemValue="Calzado"/>
+                                        <f:selectItem itemLabel="Ropa Interior" itemValue="Ropa Interior"/>
+                                        <f:selectItem itemLabel="Pijamas" itemValue="Pijamas"/>
+                                        <f:selectItem itemLabel="Camiseta" itemValue="Camiseta"/>
+                                        <f:selectItem itemLabel="Camisa" itemValue="Camisa"/>
+                                        <f:selectItem itemLabel="Pantalon" itemValue="Pantalon"/>
+                                        <f:selectItem itemLabel="Abrigo" itemValue="Abrigo"/>
+                                        <f:selectItem itemLabel="Calentador" itemValue="Calentador"/>
+                                        <f:selectItem itemLabel="Blusas" itemValue="Blusa"/>
+                                        <f:selectItem itemLabel="Vestido" itemValue="Vestido"/>
+                                        <f:selectItem itemLabel="Formal" itemValue="Formal"/>
+                                        <f:selectItem itemLabel="Bermudas" itemValue="Bermudas"/>
+                                        <f:selectItem itemLabel="Deportiva" itemValue="Deportiva"/>
+                                    </p:selectOneRadio>
+                                </div>
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="grid2">Colores</p:outputLabel>
+                                        <p:selectManyCheckbox id="grid2" value="#{prendaBean.prendaSeleccionada.colorList}" layout="responsive" columns="3">
+                                            <f:selectItems value="#{prendaBean.colores}" var="color" itemLabel="#{color.nombreColor}" />
+                                        </p:selectManyCheckbox>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="grid3">Impuestos</p:outputLabel>
+                                        <p:selectManyCheckbox id="grid3" value="#{prendaBean.prendaSeleccionada.impuestoList}" layout="responsive" columns="3">
+                                            <f:selectItems value="#{prendaBean.impuestos}" var="taxe" itemLabel="#{taxe.nombreImpuesto}" />
+                                        </p:selectManyCheckbox>
+                                    </div>
+                                </div>
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="grid4">Descuentos</p:outputLabel>
+                                        <p:selectManyCheckbox id="grid4" value="#{prendaBean.prendaSeleccionada.descuentosList}" layout="responsive" columns="3">
+                                            <f:selectItems value="#{prendaBean.descuentos}" var="descount" itemLabel="#{descount.nombreDescuento}" />
+                                        </p:selectManyCheckbox>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="grid5">Tallas</p:outputLabel>
+                                        <p:selectManyCheckbox id="grid5" value="#{prendaBean.prendaSeleccionada.tallaList}" layout="responsive" columns="3">
+                                            <f:selectItems value="#{prendaBean.tallas}" var="size" itemLabel="#{size.talla}" />
+                                        </p:selectManyCheckbox>
+                                    </div>
+                                </div>
+                                <div class="p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="grid6">Géneros</p:outputLabel>
+                                        <p:selectManyCheckbox id="grid6" value="#{prendaBean.prendaSeleccionada.generoPersonaList}" layout="responsive" columns="3">
+                                            <f:selectItems value="#{prendaBean.generos}" var="gender" itemLabel="#{gender.nombreGenero}" />
+                                        </p:selectManyCheckbox>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <p:outputLabel for="grid7">Materiales</p:outputLabel>
+                                        <p:selectManyCheckbox id="grid7" value="#{prendaBean.prendaSeleccionada.materialList}" layout="responsive" columns="3">
+                                            <f:selectItems value="#{prendaBean.materiales}" var="mat" itemLabel="#{mat.nombreMaterial}" />
+                                        </p:selectManyCheckbox>
+                                    </div>
+                                </div>
+                            </p:outputPanel>
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_prenda:manage-prenda-content" 
+                                             process="manage-prenda-content @this">
+                                <f:actionListener binding="#{prendaBean.agregarPrenda()}" />
+                                <f:actionListener binding="#{prendaBean.reiniciarPrendaSeleccionada()}" />
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('managePrendaDialog').hide()"
+                                             class="ui-button-secondary"/>
+                        </f:facet>
+                    </p:dialog>
+
+                    <p:dialog widgetVar="deletePrendaDialog" showEffect="fade" width="300" header="Confirmar">
+                        <p:commandButton value="Si" icon="pi pi-check" actionListener="#{prendaBean.eliminarPrenda}"
+                                         process="@this" oncomplete="PF('deletePrendaDialog').hide()"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                         onclick="PF('deletePrendaDialog').hide()"/>
+                    </p:dialog>
+
+                    <p:dialog showEffect="fade" width="300">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                         icon="pi pi-times"/>
+                    </p:dialog>
+
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:commandButton value="Agregar Prenda" icon="pi pi-plus" update=":form_prenda:manage-prenda-content" 
+                                             oncomplete="PF('managePrendaDialog').show()" styleClass="ui-button-success" 
+                                             style="margin-right: .5rem">
+                                <f:actionListener binding="#{prendaBean.reiniciarPrendaSeleccionada}" />
+                                <f:actionListener binding="#{prendaBean.reiniciarImagen}" />
+                                <p:resetInput target=":form_prenda:manage-prenda-content"/>
+                            </p:commandButton>
+                            <p:commandButton id="delete-prendas-button" value="#{prendaBean.deleteButtonMessagePrenda}"
+                                             icon="pi pi-trash" actionListener="#{prendaBean.eliminarPrendas}"
+                                             styleClass="ui-button-danger" disabled="#{!prendaBean.tienePrendasSeleccionadas()}"
+                                             update="@this">
+                                <p:confirm header="Confirmacion" message="Eliminar prendas seleccionadas?"
+                                           icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+
+
+                    <p:dataTable id="dt-prendas" widgetVar="dtPrendas" var="prenda" value="#{prendaBean.prendas}"
+                                 reflow="true" styleClass="prendas-table"
+                                 selection="#{prendaBean.prendasSeleccionadas}" rowKey="#{prenda.idPrenda}" paginator="true"
+                                 rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                        <f:facet name="header">
+                            <div class="prendas-table-header">
+                                <i class="pi pi-table"></i>
+                                <span style="font-weight: bold">PRENDAS</span>
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" onkeyup="PF('dtPrendas').filter()" placeholder="Search"/>
+                                </span>
+                            </div>
+                        </f:facet>
+
+
+                        <p:ajax event="rowSelect" update=":form_prenda:delete-prendas-button"/>
+                        <p:ajax event="rowUnselect" update=":form_prenda:delete-prendas-button"/>
+                        <p:ajax event="rowSelectCheckbox" update=":form_prenda:delete-prendas-button"/>
+                        <p:ajax event="rowUnselectCheckbox" update=":form_prenda:delete-prendas-button"/>
+                        <p:ajax event="toggleSelect" update=":form_prenda:delete-prendas-button"/>
+
+
+                        <p:column selectionMode="multiple" exportable="false" width="20px"></p:column>
+
+                        <p:column headerText="ID Prenda" sortBy="#{prenda.idPrenda}" filterBy="#{prenda.idPrenda}" width="70px">
+                            <h:outputText value="#{prenda.idPrenda}"/>
+                        </p:column>
+                        <p:column headerText="Nombre Prenda" sortBy="#{prenda.nombre}" filterBy="#{prenda.nombre}" width="100px">
+                            <h:outputText value="#{prenda.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Imagen Prenda" exportable="false">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images"
+                                            styleClass="product-image"/>
+                        </p:column>
+                        <p:column headerText="Precio Prenda" sortBy="#{prenda.precio}" filterBy="#{prenda.precio}" width="70px">
+                            <h:outputText value="#{prenda.precio}"/>
+                        </p:column>
+                        <p:column headerText="Descripcion Prenda" sortBy="#{prenda.descripcion}">
+                            <h:outputText value="#{prenda.descripcion}"/>
+                        </p:column>
+                        <p:column headerText="Categoría Prenda" sortBy="#{prenda.categoria}" filterBy="#{prenda.categoria}" width="150px">
+                            <h:outputText value="#{prenda.categoria}"/>
+                        </p:column>
+                        <p:column headerText="Características">
+                            <p:selectOneMenu id="labeled_1" label="Colores" alwaysDisplayLabel="true">
+                                <f:selectItems value="#{prenda.colorList}"/>
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="labeled_2" label="Tallas" alwaysDisplayLabel="true">
+                                <f:selectItems value="#{prenda.tallaList}"/>
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="labeled_3" label="Géneros" alwaysDisplayLabel="true">
+                                <f:selectItems value="#{prenda.generoPersonaList}"/>
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="labeled_4" label="Impuestos" alwaysDisplayLabel="true">
+                                <f:selectItems value="#{prenda.impuestoList}"/>
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="labeled_5" label="Descuentos" alwaysDisplayLabel="true">
+                                <f:selectItems value="#{prenda.descuentosList}"/>
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="labeled_6" label="Materiales" alwaysDisplayLabel="true">
+                                <f:selectItems value="#{prenda.materialList}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column headerText="Opciones" exportable="false" width="150px">
+                            <p:commandButton icon="pi pi-pencil" update=":form_prenda:edit-prenda-content"
+                                             oncomplete="PF('editPrendaDialog').show()"
+                                             styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form_prenda:edit-prenda-content"/>
+                            </p:commandButton>
+                            <p:spacer width="10px" height="20px"/>
+                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                             oncomplete="PF('deletePrendaDialog').show()">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                </div>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Administradores" widgetVar="gestionA" height="700px" width="2000px" showEffect="fade" draggable="false">
+            <h:form id="form_admin">
+                <div class="card crud-demo">
+                    <p:growl id="messages_admin" showDetail="true"/>
+                    <p:dialog header="Modificar Administrador" showEffect="fade" widgetVar="editAdminDialog" width="600px" height="450px">
+                        <p:outputPanel id="edit-admin-content" class="ui-fluid">
+                            <p:outputPanel rendered="#{not empty personaBean.adminSeleccionado}">
+                                <div class="p-field">
+                                    <p:outputLabel for="user_e">Usuario</p:outputLabel>
+                                    <p:inputText id="user_e" value="#{personaBean.adminSeleccionado.usuarioAdmin}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="pass_e">Contraseña</p:outputLabel>
+                                    <p:inputText id="pass_e" value="#{personaBean.adminSeleccionado.contrasenaAdmin}" required="true"/>
+                                </div>
+                            </p:outputPanel>
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_admin:edit-admin-content" 
+                                             process="edit-admin-content @this" onclick="PF('editAdminDialog').hide()">
+                                <f:actionListener binding="#{personaBean.modificarAdmin()}" />
+                                <f:actionListener binding="#{personaBean.reiniciarAdminSeleccionado()}" />
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editAdminDialog').hide()"
+                                             class="ui-button-secondary"/>
+                        </f:facet>
+                    </p:dialog>
+
+                    <p:dialog header="Nuevo Administrador" showEffect="fade" widgetVar="manageAdminDialog" width="600px" height="450px">
+                        <p:outputPanel id="manage-admin-content" class="ui-fluid">
+                            <p:outputPanel rendered="#{not empty personaBean.adminSeleccionado}">
+                                <div class="p-field">
+                                    <p:outputLabel for="name">Nombre</p:outputLabel>
+                                    <p:inputText id="name" value="#{personaBean.personaSeleccionada.nombre}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="lastname">Apellido</p:outputLabel>
+                                    <p:inputText id="lastname" value="#{personaBean.personaSeleccionada.apellido}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="cell">Telefono</p:outputLabel>
+                                    <p:inputText id="cell" value="#{personaBean.personaSeleccionada.telefono}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="dni">Cedula</p:outputLabel>
+                                    <p:inputText id="dni" value="#{personaBean.personaSeleccionada.cedula}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="mail">Correo</p:outputLabel>
+                                    <p:inputText id="mail" value="#{personaBean.personaSeleccionada.correo}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="address">Direccion</p:outputLabel>
+                                    <p:inputText id="address" value="#{personaBean.personaSeleccionada.direccion}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="user">Usuario</p:outputLabel>
+                                    <p:inputText id="user" value="#{personaBean.adminSeleccionado.usuarioAdmin}" required="true"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="pass">Contraseña</p:outputLabel>
+                                    <p:inputText id="pass" value="#{personaBean.adminSeleccionado.contrasenaAdmin}" required="true"/>
+                                </div>
+                            </p:outputPanel>
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_admin:manage-admin-content" 
+                                             process="manage-admin-content @this">
+                                <f:actionListener binding="#{personaBean.agregarPersona()}" />
+                                <f:actionListener binding="#{personaBean.reiniciarPersonaSeleccionada()}" />
+                                <f:actionListener binding="#{personaBean.agregarAdmin()}" />
+                                <f:actionListener binding="#{personaBean.reiniciarAdminSeleccionado()}" />
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageAdminDialog').hide()"
+                                             class="ui-button-secondary"/>
+                        </f:facet>
+                    </p:dialog>
+
+                    <p:dialog widgetVar="deleteAdminDialog" showEffect="fade" width="300" header="Confirmar">
+                        <p:commandButton value="Si" icon="pi pi-check" actionListener="#{personaBean.eliminarAdmin}"
+                                         process="@this" oncomplete="PF('deleteAdminDialog').hide()"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                         onclick="PF('deleteAdminDialog').hide()"/>
+                    </p:dialog>
+
+                    <p:dialog showEffect="fade" width="300">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                         icon="pi pi-times"/>
+                    </p:dialog>
+
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:commandButton value="Agregar Administrador" icon="pi pi-plus" update=":form_admin:manage-admin-content" 
+                                             oncomplete="PF('manageAdminDialog').show()" styleClass="ui-button-success" 
+                                             style="margin-right: .5rem">
+                                <p:resetInput target=":form_admin:manage-admin-content"/>
+                            </p:commandButton>
+                            <p:commandButton id="delete-admins-button" value="#{personaBean.deleteButtonMessageAdmin}"
+                                             icon="pi pi-trash" actionListener="#{personaBean.eliminarAdmins}"
+                                             styleClass="ui-button-danger" disabled="#{!personaBean.tieneAdminsSeleccionados()}"
+                                             update="@this">
+                                <p:confirm header="Confirmacion" message="Eliminar administradores seleccionados?"
+                                           icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+
+                    <p:dataTable id="dt-admins" widgetVar="dtAdmins" var="admin" value="#{personaBean.admins}"
+                                 reflow="true" styleClass="admins-table"
+                                 selection="#{personaBean.adminsSeleccionados}" rowKey="#{admin.idAdministrador}" paginator="true"
+                                 rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                        <f:facet name="header">
+                            <div class="admins-table-header">
+                                <i class="pi pi-users"></i>
+                                <span style="font-weight: bold">ADMINISTRADORES</span>
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" onkeyup="PF('dtAdmins').filter()" placeholder="Search"/>
+                                </span>
+                            </div>
+                        </f:facet>
+
+                        <p:ajax event="rowSelect" update=":form_admin:delete-admins-button"/>
+                        <p:ajax event="rowUnselect" update=":form_admin:delete-admins-button"/>
+                        <p:ajax event="rowSelectCheckbox" update=":form_admin:delete-admins-button"/>
+                        <p:ajax event="rowUnselectCheckbox" update=":form_admin:delete-admins-button"/>
+                        <p:ajax event="toggleSelect" update=":form_admin:delete-admins-button"/>
+
+                        <p:column selectionMode="multiple" exportable="false" width="20px"></p:column>
+
+                        <p:column headerText="ID Administrador" sortBy="#{admin.idAdministrador}" width="70px">
+                            <h:outputText value="#{admin.idAdministrador}"/>
+                        </p:column>
+                        <p:column headerText="ID Persona" sortBy="#{admin.idPersona.idPersona}" width="70px">
+                            <h:outputText value="#{admin.idPersona.idPersona}"/>
+                        </p:column>
+                        <p:column headerText="Usuario" sortBy="#{admin.usuarioAdmin}">
+                            <h:outputText value="#{admin.usuarioAdmin}"/>
+                        </p:column>
+                        <p:column headerText="Contraseña" sortBy="#{admin.contrasenaAdmin}">
+                            <h:outputText value="#{admin.contrasenaAdmin}"/>
+                        </p:column>
+                        <p:column headerText="Opciones" exportable="false" width="150px">
+                            <p:commandButton icon="pi pi-pencil" update=":form_admin:edit-admin-content"
+                                             oncomplete="PF('editAdminDialog').show()"
+                                             styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{admin}" target="#{personaBean.adminSeleccionado}"/>
+                                <p:resetInput target=":form_admin:edit-admin-content"/>
+                            </p:commandButton>
+                            <p:spacer width="10px" height="20px"/>
+                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                             oncomplete="PF('deleteAdminDialog').show()">
+                                <f:setPropertyActionListener value="#{admin}" target="#{personaBean.adminSeleccionado}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Opciones" widgetVar="gestionOp" height="700px" width="2000px" showEffect="fade" draggable="false">
+            <p:fieldset legend="Material" toggleable="true" toggleSpeed="500" collapsed="true">
+                <h:form id="form_material">
+                    <div class="card crud-demo">
+                        <p:growl id="messages_material" showDetail="true"/>
+
+                        <p:dialog header="Modificar Material" showEffect="fade" widgetVar="editMaterialDialog" width="400px">
+                            <p:outputPanel id="edit-material-content" class="ui-fluid">
+                                <p:outputPanel rendered="#{not empty prendaBean.materialSeleccionado}">
+                                    <div class="p-field">
+                                        <p:outputLabel for="name_2">Usuario</p:outputLabel>
+                                        <p:inputText id="name_2" value="#{prendaBean.materialSeleccionado.nombreMaterial}" required="true"/>
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_material:edit-material-content" 
+                                                 process="edit-material-content @this" onclick="PF('editMaterialDialog').hide()">
+                                    <f:actionListener binding="#{prendaBean.modificarMaterial()}" />
+                                    <f:actionListener binding="#{prendaBean.reiniciarMaterialSeleccionado()}" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editMaterialDialog').hide()"
+                                                 class="ui-button-secondary"/>
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:dialog header="Nuevo Material" showEffect="fade" widgetVar="manageMaterialDialog" width="400px">
+                            <p:outputPanel id="manage-material-content" class="ui-fluid" >
+                                <p:outputPanel rendered="#{not empty prendaBean.materialSeleccionado}">
+                                    <div class="p-field">
+                                        <p:outputLabel >Nombre Material</p:outputLabel>
+                                        <p:inputText value="#{prendaBean.materialSeleccionado.nombreMaterial}" required="true"/>
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_material:manage-material-content" 
+                                                 process="manage-material-content @this">
+                                    <f:actionListener binding="#{prendaBean.agregarMaterial()}" />
+                                    <f:actionListener binding="#{prendaBean.reiniciarMaterialSeleccionado()}" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageMaterialDialog').hide()"
+                                                 class="ui-button-secondary"/>
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:dialog widgetVar="deleteMaterialDialog" showEffect="fade" width="300" header="Confirmar">
+                            <p:commandButton value="Si" icon="pi pi-check" actionListener="#{prendaBean.eliminarMaterial}"
+                                             process="@this" oncomplete="PF('deleteMaterialDialog').hide()"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                             onclick="PF('deleteMaterialDialog').hide()"/>
+                        </p:dialog>
+
+                        <p:dialog showEffect="fade" width="300">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                             icon="pi pi-times"/>
+                        </p:dialog>
+
+                        <p:toolbar>
+                            <p:toolbarGroup>
+                                <p:commandButton value="Agregar Material" icon="pi pi-plus" update=":form_material:manage-material-content" 
+                                                 oncomplete="PF('manageMaterialDialog').show()" styleClass="ui-button-success" 
+                                                 style="margin-right: .5rem" actionListener="#{prendaBean.reiniciarMaterialSeleccionado}">
+                                    <p:resetInput target=":form_material:manage-material-content"/>
+                                </p:commandButton>
+                                <p:commandButton id="delete-materials-button" value="#{prendaBean.deleteButtonMessageMaterial}"
+                                                 icon="pi pi-trash" actionListener="#{prendaBean.eliminarMateriales}"
+                                                 styleClass="ui-button-danger" disabled="#{!prendaBean.tieneMaterialSeleccionados()}"
+                                                 update="@this">
+                                    <p:confirm header="Confirmacion" message="Eliminar materiales seleccionados?"
+                                               icon="pi pi-exclamation-triangle"/>
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+
+                        <p:dataTable id="dt-materials" widgetVar="dtMaterials" var="material" value="#{prendaBean.materiales}"
+                                     reflow="true" styleClass="materials-table"
+                                     selection="#{prendaBean.materialesSeleccionados}" rowKey="#{material.idMaterial}" paginator="true"
+                                     rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <div class="materials-table-header">
+                                    <i class="pi pi-table"></i>
+                                    <span style="font-weight: bold">MATERIALES</span>
+                                </div>
+                            </f:facet>
+
+
+                            <p:ajax event="rowSelect" update=":form_material:delete-materials-button"/>
+                            <p:ajax event="rowUnselect" update=":form_material:delete-materials-button"/>
+                            <p:ajax event="rowSelectCheckbox" update=":form_material:delete-materials-button"/>
+                            <p:ajax event="rowUnselectCheckbox" update=":form_material:delete-materials-button"/>
+                            <p:ajax event="toggleSelect" update=":form_material:delete-materials-button"/>
+
+
+                            <p:column selectionMode="multiple" exportable="false" width="20px"></p:column>
+
+                            <p:column headerText="ID Material" sortBy="#{material.idMaterial}" width="70px">
+                                <h:outputText value="#{material.idMaterial}"/>
+                            </p:column>
+                            <p:column headerText="Nombre Material" sortBy="#{material.nombreMaterial}">
+                                <h:outputText value="#{material.nombreMaterial}"/>
+                            </p:column>
+                            <p:column headerText="Opciones" exportable="false" width="150px">
+                                <p:commandButton icon="pi pi-pencil" update=":form_material:edit-material-content"
+                                                 oncomplete="PF('editMaterialDialog').show()"
+                                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{material}" target="#{prendaBean.materialSeleccionado}"/>
+                                    <p:resetInput target=":form_material:edit-material-content"/>
+                                </p:commandButton>
+                                <p:spacer width="10px" height="20px"/>
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                                 oncomplete="PF('deleteMaterialDialog').show()">
+                                    <f:setPropertyActionListener value="#{material}" target="#{prendaBean.materialSeleccionado}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                    </div>
+                </h:form>
+            </p:fieldset>
+            <p:divider align="horizontal"/>
+            <p:fieldset legend="Color" toggleable="true" toggleSpeed="500" collapsed="true">
+                <h:form id="form_color">
+                    <div class="card crud-demo">
+                        <p:growl id="messages_color" showDetail="true"/>
+
+                        <p:dialog header="Modificar Color" showEffect="fade" widgetVar="editColorDialog" width="400px">
+                            <p:outputPanel id="edit-color-content" class="ui-fluid">
+                                <p:outputPanel rendered="#{not empty prendaBean.colorSeleccionado}">
+                                    <div class="p-field">
+                                        <p:outputLabel for="name_color_1">Color</p:outputLabel>
+                                        <p:inputText id="name_color_1" value="#{prendaBean.colorSeleccionado.nombreColor}" required="true"/>
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_color:edit-color-content" 
+                                                 process="edit-color-content @this" onclick="PF('editColorDialog').hide()">
+                                    <f:actionListener binding="#{prendaBean.modificarColor()}" />
+                                    <f:actionListener binding="#{prendaBean.reiniciarColorSeleccionado()}" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editColorDialog').hide()"
+                                                 class="ui-button-secondary"/>
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:dialog header="Nuevo Color" showEffect="fade" widgetVar="manageColorDialog" width="400">
+                            <p:outputPanel id="manage-color-content" class="ui-fluid" >
+                                <p:outputPanel rendered="#{not empty prendaBean.colorSeleccionado}">
+                                    <div class="p-field">
+                                        <p:outputLabel >Nombre Color</p:outputLabel>
+                                        <p:inputText value="#{prendaBean.colorSeleccionado.nombreColor}" required="true"/>
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_color:manage-color-content" 
+                                                 process="manage-color-content @this">
+                                    <f:actionListener binding="#{prendaBean.agregarColor()}" />
+                                    <f:actionListener binding="#{prendaBean.reiniciarColorSeleccionado()}" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageColorDialog').hide()"
+                                                 class="ui-button-secondary"/>
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:dialog widgetVar="deleteColorDialog" showEffect="fade" width="300" header="Confirmar">
+                            <p:commandButton value="Si" icon="pi pi-check" actionListener="#{prendaBean.eliminarColor}"
+                                             process="@this" oncomplete="PF('deleteColorDialog').hide()"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                             onclick="PF('deleteColorDialog').hide()"/>
+                        </p:dialog>
+
+                        <p:dialog showEffect="fade" width="300">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                             icon="pi pi-times"/>
+                        </p:dialog>
+
+                        <p:toolbar>
+                            <p:toolbarGroup>
+                                <p:commandButton value="Agregar Color" icon="pi pi-plus" update=":form_color:manage-color-content" 
+                                                 oncomplete="PF('manageColorDialog').show()" styleClass="ui-button-success" 
+                                                 style="margin-right: .5rem" actionListener="#{prendaBean.reiniciarColorSeleccionado}">
+                                    <p:resetInput target=":form_color:manage-color-content"/>
+                                </p:commandButton>
+                                <p:commandButton id="delete-colors-button" value="#{prendaBean.deleteButtonMessageColor}"
+                                                 icon="pi pi-trash" actionListener="#{prendaBean.eliminarColores}"
+                                                 styleClass="ui-button-danger" disabled="#{!prendaBean.tieneColoresSeleccionados()}"
+                                                 update="@this">
+                                    <p:confirm header="Confirmacion" message="Eliminar colores seleccionados?"
+                                               icon="pi pi-exclamation-triangle"/>
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+
+                        <p:dataTable id="dt-colors" widgetVar="dtColors" var="color" value="#{prendaBean.colores}"
+                                     reflow="true" styleClass="colors-table"
+                                     selection="#{prendaBean.coloresSeleccionados}" rowKey="#{color.idColor}" paginator="true"
+                                     rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <div class="colors-table-header">
+                                    <i class="pi pi-circle-on"></i>
+                                    <span style="font-weight: bold">COLORES</span>
+                                </div>
+                            </f:facet>
+
+
+                            <p:ajax event="rowSelect" update=":form_color:delete-colors-button"/>
+                            <p:ajax event="rowUnselect" update=":form_color:delete-colors-button"/>
+                            <p:ajax event="rowSelectCheckbox" update=":form_color:delete-colors-button"/>
+                            <p:ajax event="rowUnselectCheckbox" update=":form_color:delete-colors-button"/>
+                            <p:ajax event="toggleSelect" update=":form_color:delete-colors-button"/>
+
+
+                            <p:column selectionMode="multiple" exportable="false" width="20px"></p:column>
+
+                            <p:column headerText="ID Color" sortBy="#{color.idColor}" width="70px">
+                                <h:outputText value="#{color.idColor}"/>
+                            </p:column>
+                            <p:column headerText="Nombre Material" sortBy="#{color.nombreColor}">
+                                <h:outputText value="#{color.nombreColor}"/>
+                            </p:column>
+                            <p:column headerText="Opciones" exportable="false" width="150px">
+                                <p:commandButton icon="pi pi-pencil" update=":form_color:edit-color-content"
+                                                 oncomplete="PF('editColorDialog').show()"
+                                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{color}" target="#{prendaBean.colorSeleccionado}"/>
+                                    <p:resetInput target=":form_color:edit-color-content"/>
+                                </p:commandButton>
+                                <p:spacer width="10px" height="20px"/>
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                                 oncomplete="PF('deleteColorDialog').show()">
+                                    <f:setPropertyActionListener value="#{color}" target="#{prendaBean.colorSeleccionado}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                    </div>
+                </h:form>
+            </p:fieldset>
+            <p:divider align="horizontal"/>
+            <p:fieldset legend="Género" toggleable="true" toggleSpeed="500" collapsed="true">
+                <h:form id="form_gender">
+                    <div class="card crud-demo">
+                        <p:growl id="messages_gender" showDetail="true"/>
+
+                        <p:dialog header="Modificar Genero" showEffect="fade" widgetVar="editGenderDialog" width="400px">
+                            <p:outputPanel id="edit-gender-content" class="ui-fluid">
+                                <p:outputPanel rendered="#{not empty prendaBean.generoSeleccionado}">
+                                    <div class="p-field">
+                                        <p:outputLabel for="name_2">Nombre Genero</p:outputLabel>
+                                        <p:inputText id="name_2" value="#{prendaBean.generoSeleccionado.nombreGenero}" required="true"/>
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_gender:edit-gender-content" 
+                                                 process="edit-gender-content @this" onclick="PF('editGenderDialog').hide()">
+                                    <f:actionListener binding="#{prendaBean.modificarGenero()}" />
+                                    <f:actionListener binding="#{prendaBean.reiniciarGeneroSeleccionado()}" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editGenderDialog').hide()"
+                                                 class="ui-button-secondary"/>
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:dialog header="Nuevo Genero" showEffect="fade" widgetVar="manageGenderDialog" width="400px">
+                            <p:outputPanel id="manage-gender-content" class="ui-fluid" >
+                                <p:outputPanel rendered="#{not empty prendaBean.generoSeleccionado}">
+                                    <div class="p-field">
+                                        <p:outputLabel >Nombre Genero</p:outputLabel>
+                                        <p:inputText value="#{prendaBean.generoSeleccionado.nombreGenero}" required="true"/>
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_gender:manage-gender-content" 
+                                                 process="manage-gender-content @this">
+                                    <f:actionListener binding="#{prendaBean.agregarGenero()}" />
+                                    <f:actionListener binding="#{prendaBean.reiniciarGeneroSeleccionado()}" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageGenderDialog').hide()"
+                                                 class="ui-button-secondary"/>
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:dialog widgetVar="deleteGenderDialog" showEffect="fade" width="300" header="Confirmar">
+                            <p:commandButton value="Si" icon="pi pi-check" actionListener="#{prendaBean.eliminarGenero}"
+                                             process="@this" oncomplete="PF('deleteGenderDialog').hide()"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                             onclick="PF('deleteGenderDialog').hide()"/>
+                        </p:dialog>
+
+                        <p:dialog showEffect="fade" width="300">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                             icon="pi pi-times"/>
+                        </p:dialog>
+
+
+                        <p:toolbar>
+                            <p:toolbarGroup>
+                                <p:commandButton value="Agregar Genero" icon="pi pi-plus" update=":form_gender:manage-gender-content" 
+                                                 oncomplete="PF('manageGenderDialog').show()" styleClass="ui-button-success" 
+                                                 style="margin-right: .5rem" actionListener="#{prendaBean.reiniciarGeneroSeleccionado}">
+                                    <p:resetInput target=":form_gender:manage-gender-content"/>
+                                </p:commandButton>
+                                <p:commandButton id="delete-genders-button" value="#{prendaBean.deleteButtonMessageGenero}"
+                                                 icon="pi pi-trash" actionListener="#{prendaBean.eliminarGeneros}"
+                                                 styleClass="ui-button-danger" disabled="#{!prendaBean.tieneGenerosSeleccionados()}"
+                                                 update="@this">
+                                    <p:confirm header="Confirmacion" message="Eliminar generos seleccionados?"
+                                               icon="pi pi-exclamation-triangle"/>
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+
+                        <p:dataTable id="dt-genders" widgetVar="dtGenders" var="gender" value="#{prendaBean.generos}"
+                                     reflow="true" styleClass="genders-table"
+                                     selection="#{prendaBean.generosSeleccionados}" rowKey="#{gender.idGenero}" paginator="true"
+                                     rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <div class="genders-table-header">
+                                    <i class="pi pi-users"></i>
+                                    <span style="font-weight: bold">GÉNEROS</span>
+                                </div>
+                            </f:facet>
+
+
+                            <p:ajax event="rowSelect" update=":form_gender:delete-genders-button"/>
+                            <p:ajax event="rowUnselect" update=":form_gender:delete-genders-button"/>
+                            <p:ajax event="rowSelectCheckbox" update=":form_gender:delete-genders-button"/>
+                            <p:ajax event="rowUnselectCheckbox" update=":form_gender:delete-genders-button"/>
+                            <p:ajax event="toggleSelect" update=":form_gender:delete-genders-button"/>
+
+
+                            <p:column selectionMode="multiple" exportable="false" width="20px"></p:column>
+
+                            <p:column headerText="ID Genero" sortBy="#{gender.idGenero}" width="70px">
+                                <h:outputText value="#{gender.idGenero}"/>
+                            </p:column>
+                            <p:column headerText="Nombre Genero" sortBy="#{gender.nombreGenero}">
+                                <h:outputText value="#{gender.nombreGenero}"/>
+                            </p:column>
+                            <p:column headerText="Opciones" exportable="false" width="150px">
+                                <p:commandButton icon="pi pi-pencil" update=":form_gender:edit-gender-content"
+                                                 oncomplete="PF('editGenderDialog').show()"
+                                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{gender}" target="#{prendaBean.generoSeleccionado}"/>
+                                    <p:resetInput target=":form_gender:edit-gender-content"/>
+                                </p:commandButton>
+                                <p:spacer width="10px" height="20px"/>
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                                 oncomplete="PF('deleteGenderDialog').show()">
+                                    <f:setPropertyActionListener value="#{gender}" target="#{prendaBean.generoSeleccionado}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                    </div>
+                </h:form>
+            </p:fieldset>
+            <p:divider align="horizontal"/>
+            <p:fieldset legend="Descuentos" toggleable="true" toggleSpeed="500" collapsed="true">
+                <h:form id="form_descount">
+                    <div class="card crud-demo">
+                        <p:growl id="messages_descount" showDetail="true"/>
+
+                        <p:dialog header="Modificar Descuento" showEffect="fade" widgetVar="editDescountDialog" width="400px">
+                            <p:outputPanel id="edit-descount-content" class="ui-fluid">
+                                <p:outputPanel rendered="#{not empty prendaBean.descuentoSeleccionado}">
+                                    <div class="p-field">
+                                        <p:outputLabel>Nombre Descuento</p:outputLabel>
+                                        <p:inputText id="nombre_des_1" value="#{prendaBean.descuentoSeleccionado.nombreDescuento}" required="true"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel>Porcentaje Descuento</p:outputLabel>
+                                        <p:inputText id="descuento_1" value="#{prendaBean.descuentoSeleccionado.porcentajeDescuento}" required="true"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel>Fecha Inicio</p:outputLabel>
+                                        <p:datePicker id="button_1" value="#{prendaBean.descuentoSeleccionado.fechaInicio}" required="true" />
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel>Fecha Final</p:outputLabel>
+                                        <p:datePicker id="button_2" value="#{prendaBean.descuentoSeleccionado.fechaFinal}" required="true" />
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_descount:edit-descount-content" 
+                                                 process="edit-descount-content @this" onclick="PF('editDescountDialog').hide()">
+                                    <f:actionListener binding="#{prendaBean.modificarDescuento()}" />
+                                    <f:actionListener binding="#{prendaBean.reiniciarDescuentoSeleccionado()}" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editDescountDialog').hide()"
+                                                 class="ui-button-secondary"/>
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:dialog header="Nuevo Descuento" showEffect="fade" widgetVar="manageDescountDialog" width="400px">
+                            <p:outputPanel id="manage-descount-content" class="ui-fluid" >
+                                <p:outputPanel rendered="#{not empty prendaBean.descuentoSeleccionado}">
+                                    <div class="p-field">
+                                        <p:outputLabel>Nombre Descuento</p:outputLabel>
+                                        <p:inputText id="nombre_des_2" value="#{prendaBean.descuentoSeleccionado.nombreDescuento}" required="true"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel>Porcentaje Descuento</p:outputLabel>
+                                        <p:inputText id="descuento_2" value="#{prendaBean.descuentoSeleccionado.porcentajeDescuento}" required="true"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel>Fecha Inicio</p:outputLabel>
+                                        <p:datePicker id="button_3" value="#{prendaBean.descuentoSeleccionado.fechaInicio}" required="true" />
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel>Fecha Final</p:outputLabel>
+                                        <p:datePicker id="button_4" value="#{prendaBean.descuentoSeleccionado.fechaFinal}" required="true" />
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_descount:manage-descount-content" 
+                                                 process="manage-descount-content @this">
+                                    <f:actionListener binding="#{prendaBean.agregarDescuento()}" />
+                                    <f:actionListener binding="#{prendaBean.reiniciarDescuentoSeleccionado()}" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageDescountDialog').hide()"
+                                                 class="ui-button-secondary"/>
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:dialog widgetVar="deleteDescountDialog" showEffect="fade" width="300" header="Confirmar">
+                            <p:commandButton value="Si" icon="pi pi-check" actionListener="#{prendaBean.eliminarDescuento}"
+                                             process="@this" oncomplete="PF('deleteDescountDialog').hide()"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                             onclick="PF('deleteDescountDialog').hide()"/>
+                        </p:dialog>
+
+                        <p:dialog showEffect="fade" width="300">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                             icon="pi pi-times"/>
+                        </p:dialog>
+
+                        <p:toolbar>
+                            <p:toolbarGroup>
+                                <p:commandButton value="Agregar Descuento" icon="pi pi-plus" update=":form_descount:manage-descount-content" 
+                                                 oncomplete="PF('manageDescountDialog').show()" styleClass="ui-button-success" 
+                                                 style="margin-right: .5rem" actionListener="#{prendaBean.reiniciarDescuentoSeleccionado}">
+                                    <p:resetInput target=":form_gender:manage-gender-content"/>
+                                </p:commandButton>
+                                <p:commandButton id="delete-descounts-button" value="#{prendaBean.deleteButtonMessageDescuento}"
+                                                 icon="pi pi-trash" actionListener="#{prendaBean.eliminarDescuentos}"
+                                                 styleClass="ui-button-danger" disabled="#{!prendaBean.tieneDescuentosSeleccionados()}"
+                                                 update="@this">
+                                    <p:confirm header="Confirmacion" message="Eliminar descuentos seleccionados?"
+                                               icon="pi pi-exclamation-triangle"/>
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+
+                        <p:dataTable id="dt-descounts" widgetVar="dtDescounts" var="descount" value="#{prendaBean.descuentos}"
+                                     reflow="true" styleClass="descounts-table"
+                                     selection="#{prendaBean.descuentosSeleccionados}" rowKey="#{descount.idDescuento}" paginator="true"
+                                     rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <div class="descounts-table-header">
+                                    <i class="pi pi-percentage"></i>
+                                    <span style="font-weight: bold">DESCUENTOS</span>
+                                </div>
+                            </f:facet>
+
+
+                            <p:ajax event="rowSelect" update=":form_descount:delete-descounts-button"/>
+                            <p:ajax event="rowUnselect" update=":form_descount:delete-descounts-button"/>
+                            <p:ajax event="rowSelectCheckbox" update=":form_descount:delete-descounts-button"/>
+                            <p:ajax event="rowUnselectCheckbox" update=":form_descount:delete-descounts-button"/>
+                            <p:ajax event="toggleSelect" update=":form_descount:delete-descounts-button"/>
+
+
+                            <p:column selectionMode="multiple" exportable="false" width="20px"></p:column>
+
+                            <p:column headerText="ID Descuento" sortBy="#{descount.idDescuento}" width="70px">
+                                <h:outputText value="#{descount.idDescuento}"/>
+                            </p:column>
+                            <p:column headerText="Nombre Descuento" sortBy="#{descount.nombreDescuento}">
+                                <h:outputText value="#{descount.nombreDescuento}"/>
+                            </p:column>
+                            <p:column headerText="Porcentaje Descuento" sortBy="#{descount.porcentajeDescuento}">
+                                <h:outputText value="#{descount.porcentajeDescuento}"/>
+                            </p:column>
+                            <p:column headerText="Fecha Inicio" sortBy="#{descount.fechaInicio}">
+                                <h:outputText value="#{descount.fechaInicio}"/>
+                            </p:column>
+                            <p:column headerText="Fecha Fin" sortBy="#{descount.fechaFinal}">
+                                <h:outputText value="#{descount.fechaFinal}"/>
+                            </p:column>
+                            <p:column headerText="Opciones" exportable="false" width="150px">
+                                <p:commandButton icon="pi pi-pencil" update=":form_descount:edit-descount-content"
+                                                 oncomplete="PF('editDescountDialog').show()"
+                                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{descount}" target="#{prendaBean.descuentoSeleccionado}"/>
+                                    <p:resetInput target=":form_descount:edit-descount-content"/>
+                                </p:commandButton>
+                                <p:spacer width="10px" height="20px"/>
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                                 oncomplete="PF('deleteDescountDialog').show()">
+                                    <f:setPropertyActionListener value="#{descount}" target="#{prendaBean.descuentoSeleccionado}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                    </div>
+                </h:form>
+            </p:fieldset>
+            <p:divider align="horizontal"/>
+            <p:fieldset legend="Impuesto" toggleable="true" toggleSpeed="500" collapsed="true">
+                <h:form id="form_taxe">
+                    <div class="card crud-demo">
+                        <p:growl id="messages_taxe" showDetail="true"/>
+
+                        <p:dialog header="Modificar Impuesto" showEffect="fade" widgetVar="editTaxeDialog" width="400px">
+                            <p:outputPanel id="edit-taxe-content" class="ui-fluid">
+                                <p:outputPanel rendered="#{not empty prendaBean.impuestoSeleccionado}">
+                                    <div class="p-field">
+                                        <p:outputLabel for="name_2">Nombre Impuesto</p:outputLabel>
+                                        <p:inputText id="name_2" value="#{prendaBean.impuestoSeleccionado.nombreImpuesto}" required="true"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel for="number_2">Valor Impuesto</p:outputLabel>
+                                        <p:inputText id="number_2" value="#{prendaBean.impuestoSeleccionado.valorImpuesto}" required="true"/>
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_taxe:edit-taxe-content" 
+                                                 process="edit-taxe-content @this" onclick="PF('editTaxeDialog').hide()">
+                                    <f:actionListener binding="#{prendaBean.modificarImpuesto()}" />
+                                    <f:actionListener binding="#{prendaBean.reiniciarImpuestosSeleccionados()}" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editTaxeDialog').hide()"
+                                                 class="ui-button-secondary"/>
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:dialog header="Nuevo Impuesto" showEffect="fade" widgetVar="manageTaxeDialog" width="400px">
+                            <p:outputPanel id="manage-taxe-content" class="ui-fluid" >
+                                <p:outputPanel rendered="#{not empty prendaBean.impuestoSeleccionado}">
+                                    <div class="p-field">
+                                        <p:outputLabel >Nombre Impuesto</p:outputLabel>
+                                        <p:inputText value="#{prendaBean.impuestoSeleccionado.nombreImpuesto}" required="true"/>
+                                    </div>
+                                    <div class="p-field">
+                                        <p:outputLabel for="number_1">Valor Impuesto</p:outputLabel>
+                                        <p:inputText id="number_1" value="#{prendaBean.impuestoSeleccionado.valorImpuesto}" required="true"/>
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_taxe:manage-taxe-content" 
+                                                 process="manage-taxe-content @this">
+                                    <f:actionListener binding="#{prendaBean.agregarImpuesto()}" />
+                                    <f:actionListener binding="#{prendaBean.reiniciarImpuestosSeleccionados()}" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageTaxeDialog').hide()"
+                                                 class="ui-button-secondary"/>
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:dialog widgetVar="deleteTaxeDialog" showEffect="fade" width="300" header="Confirmar">
+                            <p:commandButton value="Si" icon="pi pi-check" actionListener="#{prendaBean.eliminarImpuesto}"
+                                             process="@this" oncomplete="PF('deleteTaxeDialog').hide()"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                             onclick="PF('deleteTaxeDialog').hide()"/>
+                        </p:dialog>
+
+                        <p:dialog showEffect="fade" width="300">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                             icon="pi pi-times"/>
+                        </p:dialog>
+
+
+                        <p:toolbar>
+                            <p:toolbarGroup>
+                                <p:commandButton value="Agregar Impuesto" icon="pi pi-plus" update=":form_taxe:manage-taxe-content" 
+                                                 oncomplete="PF('manageTaxeDialog').show()" styleClass="ui-button-success" 
+                                                 style="margin-right: .5rem" actionListener="#{prendaBean.reiniciarImpuestosSeleccionados}">
+                                    <p:resetInput target=":form_taxe:manage-taxe-content"/>
+                                </p:commandButton>
+                                <p:commandButton id="delete-taxes-button" value="#{prendaBean.deleteButtonMessageImpuesto}"
+                                                 icon="pi pi-trash" actionListener="#{prendaBean.eliminarImpuestos}"
+                                                 styleClass="ui-button-danger" disabled="#{!prendaBean.tieneImpuestoSeleccionados()}"
+                                                 update="@this">
+                                    <p:confirm header="Confirmacion" message="Eliminar impuestos seleccionados?"
+                                               icon="pi pi-exclamation-triangle"/>
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+
+                        <p:dataTable id="dt-taxes" widgetVar="dtTaxes" var="taxe" value="#{prendaBean.impuestos}"
+                                     reflow="true" styleClass="taxes-table"
+                                     selection="#{prendaBean.impuestosSeleccionados}" rowKey="#{taxe.idImpuesto}" paginator="true"
+                                     rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <div class="taxes-table-header">
+                                    <i class="pi pi-wallet"></i>
+                                    <span style="font-weight: bold">IMPUESTOS</span>
+                                </div>
+                            </f:facet>
+
+
+                            <p:ajax event="rowSelect" update=":form_taxe:delete-taxes-button"/>
+                            <p:ajax event="rowUnselect" update=":form_taxe:delete-taxes-button"/>
+                            <p:ajax event="rowSelectCheckbox" update=":form_taxe:delete-taxes-button"/>
+                            <p:ajax event="rowUnselectCheckbox" update=":form_taxe:delete-taxes-button"/>
+                            <p:ajax event="toggleSelect" update=":form_taxe:delete-taxes-button"/>
+
+
+                            <p:column selectionMode="multiple" exportable="false" width="20px"></p:column>
+
+                            <p:column headerText="ID Impuesto" sortBy="#{taxe.idImpuesto}" width="70px">
+                                <h:outputText value="#{taxe.idImpuesto}"/>
+                            </p:column>
+                            <p:column headerText="Nombre Impuesto" sortBy="#{taxe.nombreImpuesto}">
+                                <h:outputText value="#{taxe.nombreImpuesto}"/>
+                            </p:column>
+                            <p:column headerText="Valor Impuesto" sortBy="#{taxe.valorImpuesto}">
+                                <h:outputText value="#{taxe.valorImpuesto}"/>
+                            </p:column>
+                            <p:column headerText="Opciones" exportable="false" width="150px">
+                                <p:commandButton icon="pi pi-pencil" update=":form_taxe:edit-taxe-content"
+                                                 oncomplete="PF('editTaxeDialog').show()"
+                                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{taxe}" target="#{prendaBean.impuestoSeleccionado}"/>
+                                    <p:resetInput target=":form_gender:edit-gender-content"/>
+                                </p:commandButton>
+                                <p:spacer width="10px" height="20px"/>
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                                 oncomplete="PF('deleteTaxeDialog').show()">
+                                    <f:setPropertyActionListener value="#{taxe}" target="#{prendaBean.impuestoSeleccionado}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                    </div>
+                </h:form>
+            </p:fieldset>
+            <p:divider align="horizontal"/>
+            <p:fieldset legend="Talla" toggleable="true" toggleSpeed="500" collapsed="true">
+                <h:form id="form_size">
+                    <div class="card crud-demo">
+                        <p:growl id="messages_size" showDetail="true"/>
+
+                        <p:dialog header="Modificar Talla" showEffect="fade" widgetVar="editSizeDialog" width="400px">
+                            <p:outputPanel id="edit-size-content" class="ui-fluid">
+                                <p:outputPanel rendered="#{not empty prendaBean.tallaSeleccionado}">
+                                    <div class="p-field">
+                                        <p:outputLabel for="name_2">Numero Talla</p:outputLabel>
+                                        <p:inputText id="name_2" value="#{prendaBean.tallaSeleccionado.talla}" required="true"/>
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_size:edit-size-content" 
+                                                 process="edit-size-content @this" onclick="PF('editSizeDialog').hide()">
+                                    <f:actionListener binding="#{prendaBean.modificarTalla()}" />
+                                    <f:actionListener binding="#{prendaBean.reiniciarTallaSeleccionada()}" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editSizeDialog').hide()"
+                                                 class="ui-button-secondary"/>
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:dialog header="Nueva Talla" showEffect="fade" widgetVar="manageSizeDialog" width="400px">
+                            <p:outputPanel id="manage-size-content" class="ui-fluid" >
+                                <p:outputPanel rendered="#{not empty prendaBean.tallaSeleccionado}">
+                                    <div class="p-field">
+                                        <p:outputLabel >Numero Talla</p:outputLabel>
+                                        <p:inputText value="#{prendaBean.tallaSeleccionado.talla}" required="true"/>
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Aceptar" icon="pi pi-check" update=":form_size:manage-size-content" 
+                                                 process="manage-size-content @this">
+                                    <f:actionListener binding="#{prendaBean.agregarTalla()}" />
+                                    <f:actionListener binding="#{prendaBean.reiniciarTallaSeleccionada()}" />
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageSizeDialog').hide()"
+                                                 class="ui-button-secondary"/>
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:dialog widgetVar="deleteSizeDialog" showEffect="fade" width="300" header="Confirmar">
+                            <p:commandButton value="Si" icon="pi pi-check" actionListener="#{prendaBean.eliminarTalla}"
+                                             process="@this" oncomplete="PF('deleteSizeDialog').hide()"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                             onclick="PF('deleteSizeDialog').hide()"/>
+                        </p:dialog>
+
+                        <p:dialog showEffect="fade" width="300">
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                             icon="pi pi-times"/>
+                        </p:dialog>
+
+                        <p:toolbar>
+                            <p:toolbarGroup>
+                                <p:commandButton value="Agregar Talla" icon="pi pi-plus" update=":form_size:manage-size-content" 
+                                                 oncomplete="PF('manageSizeDialog').show()" styleClass="ui-button-success" 
+                                                 style="margin-right: .5rem" actionListener="#{prendaBean.reiniciarTallaSeleccionada}">
+                                    <p:resetInput target=":form_size:manage-size-content"/>
+                                </p:commandButton>
+                                <p:commandButton id="delete-sizes-button" value="#{prendaBean.deleteButtonMessageTalla}"
+                                                 icon="pi pi-trash" actionListener="#{prendaBean.eliminarTallas}"
+                                                 styleClass="ui-button-danger" disabled="#{!prendaBean.tieneTallasSeleccionados()}"
+                                                 update="@this">
+                                    <p:confirm header="Confirmacion" message="Eliminar tallas seleccionadas?"
+                                               icon="pi pi-exclamation-triangle"/>
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+
+
+                        <p:dataTable id="dt-sizes" widgetVar="dtSizes" var="size" value="#{prendaBean.tallas}"
+                                     reflow="true" styleClass="sizes-table"
+                                     selection="#{prendaBean.tallasSeleccionado}" rowKey="#{size.idTalla}" paginator="true"
+                                     rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <div class="size-table-header">
+                                    <i class="pi pi-tags"></i>
+                                    <span style="font-weight: bold">TALLAS</span>
+                                </div>
+                            </f:facet>
+
+
+                            <p:ajax event="rowSelect" update=":form_size:delete-sizes-button"/>
+                            <p:ajax event="rowUnselect" update=":form_size:delete-sizes-button"/>
+                            <p:ajax event="rowSelectCheckbox" update=":form_size:delete-sizes-button"/>
+                            <p:ajax event="rowUnselectCheckbox" update=":form_size:delete-sizes-button"/>
+                            <p:ajax event="toggleSelect" update=":form_size:delete-sizes-button"/>
+
+
+                            <p:column selectionMode="multiple" exportable="false" width="20px"></p:column>
+
+                            <p:column headerText="ID Talla" sortBy="#{size.idTalla}" width="70px">
+                                <h:outputText value="#{size.idTalla}"/>
+                            </p:column>
+                            <p:column headerText="Número Talla" sortBy="#{size.talla}">
+                                <h:outputText value="#{size.talla}"/>
+                            </p:column>
+                            <p:column headerText="Opciones" exportable="false" width="150px">
+                                <p:commandButton icon="pi pi-pencil" update=":form_size:edit-size-content"
+                                                 oncomplete="PF('editSizeDialog').show()"
+                                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{size}" target="#{prendaBean.tallaSeleccionado}"/>
+                                    <p:resetInput target=":form_size:edit-size-content"/>
+                                </p:commandButton>
+                                <p:spacer width="10px" height="20px"/>
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                                 oncomplete="PF('deleteSizeDialog').show()">
+                                    <f:setPropertyActionListener value="#{size}" target="#{prendaBean.tallaSeleccionado}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                    </div>
+                </h:form>
+            </p:fieldset>
+        </p:dialog>
+
+    </h:body>
+</html>
+

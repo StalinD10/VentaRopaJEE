@@ -1,0 +1,1423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <f:facet name="first">
+            <f:event type="preRenderView" listener="#{permisos.verificarSesion()}" />
+        </f:facet>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@3.0.1/primeflex.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+        <h:outputStylesheet library="css" name="estilosIndexUsuario.css"/>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+
+            <div class="posicion">
+                <p:sidebar widgetVar="sidebar1" baseZIndex="10000" styleClass="ui_sidebar-full" modal="false">
+                    <br>
+                    </br>
+                    <br>
+                    </br>
+                    <h1>Selecciona una opción</h1>
+                    <br>
+                    </br>
+                    <br>
+                    </br>
+                    <p:commandButton type="button" value="Editar Cuenta" styleClass="ui-button-outlined ui-button-success" 
+                                     icon="pi pi-user-edit" onclick="PF('editar').show()"/>
+                    <br>
+                    </br>
+                    <br>
+                    </br>
+                    <p:commandButton type="button" value="Seleccionar Pagos" styleClass="ui-button-outlined ui-button-info"  
+                                     icon="pi pi-credit-card" onclick="PF('tarjeta').show()"/>
+                    <br>
+                    </br>
+                    <br>
+                    </br>
+                    <p:commandButton type="button" value="Historial de Pedidos" styleClass="ui-button-outlined ui-button-help" 
+                                     icon="pi pi-file-o" onclick="PF('pedidos').show()"/>
+                </p:sidebar>
+                <p:commandButton icon="pi pi-bars" type="button" onclick="PF('sidebar1').show()"  styleClass="rounded-button ui-button-secondary" 
+                                 value="Opciones de usuario" />
+            </div>
+
+            <div class="boton_carrito">
+                <p:commandButton id="btn_carrito" type="button" icon="pi pi-shopping-cart pi-2x" style="width: 175px; height: 50px" 
+                                 styleClass="ui-button-raised ui-button-danger ui-button-flat" disabled="#{!pagoBean.tienePrendasCarrito()}" 
+                                 value="#{pagoBean.numeroPrendas()}" onclick="PF('pago').show()">
+                    <p:ajax update=":form:dt-carritos"/>
+                </p:commandButton>
+            </div>
+
+            <nav class="menu">
+                <ol>
+                    <li class="menu-item"><a href="indexUsuario.xhtml">Home</a></li>
+                    <li class="menu-item">
+                        <a href="#0" onselect="#{catalogoBean.generarCatalogoDama()}" onclick="PF('tablaDama').show()">Damas</a>
+                        <ol class="sub-menu">
+                            <li> <p:commandLink  class="manu-item" value="Calzado" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarDamaCalzado()}" onclick="PF('tablaDamaCalzado').show()"/> </li>
+                            <li> <p:commandLink  class="manu-item" value="Ropa Interior y Pijamas" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarDamaInteriorPijama()}" onclick="PF('tablaDamaInteriorPijama').show()"/> </li>
+                            <li> <p:commandLink  class="manu-item" value="Camisas y Formal" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarDamaCamisaFormal()}" onclick="PF('tablaDamaCamisaFormal').show()"/> </li>
+                            <li> <p:commandLink  class="manu-item" value="Pantalón" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarDamaPantalon()}" onclick="PF('tablaDamaPantalon').show()"/> </li>
+                            <li> <p:commandLink  class="manu-item" value="Abrigos y Calentadores" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarDamaAbrigoCalentador()}" onclick="PF('tablaDamaAbrigoCalentador').show()"/> </li>
+                            <li> <p:commandLink  class="manu-item" value="Blusas" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarDamaBlusa()}" onclick="PF('tablaDamaBlusa').show()"/> </li>
+                            <li> <p:commandLink  class="manu-item" value="Vestidos" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarDamaVestido()}" onclick="PF('tablaDamaVestido').show()"/> </li>
+                        </ol>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#0" onselect="#{catalogoBean.generarCatalogoCaballero()}" onclick="PF('tablaCaballero').show()">Caballeros</a>
+                        <ol class="sub-menu">
+                            <li> <p:commandLink  class="manu-item" value="Calzado" style="text-decoration: none;"
+                                                 onstart="#{catalogoBean.generarCaballeroCalzado()}" onclick="PF('tablaCaballeroCalzado').show()"/> </li>
+                            <li> <p:commandLink  class="manu-item" value="Ropa Interior y Pijamas" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarCaballeroInteriorPijama()}" onclick="PF('tablaCaballeroInteriorPijama').show()"/> </li>
+                            <li> <p:commandLink  class="manu-item" value="Camisas y Formal" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarCaballeroCamisaFormal()}" onclick="PF('tablaCaballeroCamisaFormal').show()"/> </li>
+                            <li> <p:commandLink  class="manu-item" value="Pantalon y Bermudas" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarCaballeroPantalonBermuda()}" onclick="PF('tablaCaballeroPantalonBermuda').show()"/> </li>
+                            <li> <p:commandLink  class="manu-item" value="Abrigos" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarCaballeroAbrigo()}" onclick="PF('tablaCaballeroAbrigo').show()"/> </li>
+                            <li> <p:commandLink  class="manu-item" value="Deportiva y Calentadores" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarCaballeroDeportivaCalentador()}" onclick="PF('tablaCaballeroDeportivaCalentador').show()"/> </li>
+                            <li> <p:commandLink  class="manu-item" value="Camisetas" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarCaballeroCamiseta()}" onclick="PF('tablaCaballeroCamiseta').show()"/> </li>
+                        </ol>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#0" onselect="#{catalogoBean.generarCatalogoInfantil()}" onclick="PF('tablaInfantil').show()">Infantíl</a>
+                        <ol class="sub-menu">
+                            <li> <p:commandLink  class="manu-item" value="Niño" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarCatalogoNiño()}" onclick="PF('tablaNiño').show()"/> </li>
+                            <li> <p:commandLink  class="manu-item" value="Niña" style="text-decoration: none;" 
+                                                 onstart="#{catalogoBean.generarCatalogoNiña()}" onclick="PF('tablaNiña').show()"/> </li>
+                        </ol>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#0" onclick="PF('cerrar_sesion').show()">Cerrar Sesión</a>
+                    </li>
+
+                </ol>
+            </nav>
+
+            <div class="row">
+                <div class="contenido">
+                    <div class="card">
+                        <div class="untitled">
+                            <div class="untitled__slides">
+                                <div class="untitled__slide">
+                                    <div class="untitled__slideBg"></div>
+                                    <div class="untitled__slideContent">
+                                        <span>Conoce nuestras ofertas</span>
+                                        <p:commandLink  class="button" value="Ir a productos" style="color: white" onclick="PF('tablaPrendas').show()"/>
+                                    </div>
+                                </div>
+                                <div class="untitled__slide">
+                                    <div class="untitled__slideBg"></div>
+                                    <div class="untitled__slideContent">
+                                        <span> Nuevos modelos</span> 
+                                        <p:commandLink  class="button" value="Ir a productos" style="color: white" onclick="PF('tablaPrendas').show()"/>
+                                    </div>
+                                </div>
+                                <div class="untitled__slide">
+                                    <div class="untitled__slideBg"></div>
+                                    <div class="untitled__slideContent">
+                                        <span>Todo lo que necesitas</span> 
+                                        <p:commandLink  class="button" value="Ir a productos" style="color: white" onclick="PF('tablaPrendas').show()"/>
+                                    </div>
+                                </div>
+                                <div class="untitled__slide">
+                                    <div class="untitled__slideBg"></div>
+                                    <div class="untitled__slideContent">
+                                        <span>Para todo tipo</span> 
+                                        <p:commandLink  class="button" value="Ir a productos" style="color: white" onclick="PF('tablaPrendas').show()"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="untitled__shutters"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-image">
+                <div class="img-box">
+                    <img  src="https://i.ytimg.com/vi/P9FaZM0mnak/maxresdefault.jpg"/> 
+                    <div class="transparent-box">
+                        <div class="caption ">
+                            <p>NUEVOS MODELOS DE BLUSAS</p>
+                            <div class="a2">
+                                <h1 class="opacity-low" >  <p:commandLink  class="manu-item"  style="text-decoration: none;" 
+                                                                           onstart="#{catalogoBean.generarDamaBlusa()}" onclick="PF('tablaDamaBlusa').show()"> IR A BLUSAS</p:commandLink></h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="img-box">
+                    <img src="https://modaellas.com//wp-content/uploads/2018/12/fast-fashion-vs-slow-fashion-diferencias-ventajas-y-desventajas6-600x399.jpg" alt="" />
+                    <div class="transparent-box">
+                        <div class="caption">
+                            <p>VISITA NUESTRA TIENDA FISICA</p>
+                            <a href="mapaUsuario.xhtml" style="text-decoration:none" tarjet="contenido"> <h1 class="opacity-low" style="color: #FFFFFF">ABRIR MAPA</h1></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="img-box">
+                    <img src="https://img.vixdata.io/pd/jpg-large/es/sites/default/files/m/mujer-estilo-rock.jpg" alt="" />
+                    <div class="transparent-box">
+                        <div class="caption">
+                            <p>% DESCUENTOS DE LOCURA %</p>
+                            <h1 class="opacity-low" >  <p:commandLink  class="manu-item"  style="text-decoration: none;" 
+                                                                       onclick="PF('tablaPrendas').show()"> IR A PRODUCTOS</p:commandLink></h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="img-box">
+                    <img src="https://www.ecestaticos.com/imagestatic/clipping/fa9/a06/fa9a0677c486e65e3f56cf8f3c8103fa/los-basicos-de-lujo-que-comprar-en-el-black-friday.jpg?mtime=1622712860" alt="" />
+                    <div class="transparent-box">
+                        <div class="caption">
+                            <p>TODO A TUS MANOS 7w7</p>
+                        </div>
+                    </div> 
+                </div>
+                <div class="img-box">
+                    <img src="https://www.hogarmania.com/archivos/201711/moda-hombres-gabardina-1280x720x80xX.jpg" alt="" />
+                    <div class="transparent-box">
+                        <div class="caption">
+                            <p>NUEVOS MODELOS DE CHAQUETAS</p>
+                            <h1 class="opacity-low" >  <p:commandLink  class="manu-item"  style="text-decoration: none;" 
+                                                                       onclick="PF('tablaCaballeroAbrigo').show()"> IR A CHAQUETAS</p:commandLink></h1>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+
+            <div class="flex-center ">
+                <a href="https://twitter.com/"> <i class="fa fa-twitter fa-4x icon-3d"></i></a>
+                <a href="https://facebook.com/"> <i class="fa fa-facebook fa-4x icon-3d"></i></a>
+                <a href="https://instagram.com/"><i class="fa fa-instagram fa-4x icon-3d"></i></a>
+                <a href="https://webwhatsapp.com/"> <i class="fa fa-whatsapp fa-4x icon-3d"></i></a>
+
+                <h2 style="color:white">YPS Fashion Store. Todos los derechos Reservados</h2>
+
+            </div>
+
+            <p:dialog widgetVar="cerrar_sesion" showEffect="fade" width="300" header="Confirmar">
+                <p:commandButton value="Si" icon="pi pi-check" actionListener="#{permisos.cerrarSesion()}"
+                                 process="@this" oncomplete="PF('cerrar_sesion').hide()" action="/indexCuerpo.xhtml"/>
+                <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                 onclick="PF('cerrar_sesion').hide()"/>
+            </p:dialog>
+
+            <p:dialog header="Modificar Cliente" showEffect="fade" widgetVar="editar" responsive="true" width="400px" 
+                      visible="false" draggable="false" onShow="PF('sidebar1').hide()">
+                <p:outputPanel id="edit-client" class="ui-fluid">
+                    <p:outputPanel rendered="#{not empty clienteBean.clienteSeleccionado}">
+                        <div class="p-field">
+                            <p:outputLabel>Nombre</p:outputLabel>
+                            <p:inputText value="#{clienteBean.clienteSeleccionado.idPersona.nombre}" required="true" placeholder="Nombre"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel>Apellido</p:outputLabel>
+                            <p:inputText value="#{clienteBean.clienteSeleccionado.idPersona.apellido}" required="true" placeholder="Apellido"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel>Correo</p:outputLabel>
+                            <p:inputText value="#{clienteBean.clienteSeleccionado.idPersona.correo}" required="true" placeholder="Correo"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel>Cédula</p:outputLabel>
+                            <p:inputText value="#{clienteBean.clienteSeleccionado.idPersona.cedula}" required="true" placeholder="Cédula"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel>Dirección</p:outputLabel>
+                            <p:inputText value="#{clienteBean.clienteSeleccionado.idPersona.direccion}" required="true" placeholder="Dirección"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel>Teléfono</p:outputLabel>
+                            <p:inputText value="#{clienteBean.clienteSeleccionado.idPersona.telefono}" required="true" placeholder="Teléfono"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel>Usuario</p:outputLabel>
+                            <p:inputText value="#{clienteBean.clienteSeleccionado.usuario}" required="true" placeholder="Usuario"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel>Contraseña</p:outputLabel>
+                            <p:password value="#{clienteBean.clienteSeleccionado.contrasena}" required="true" placeholder="Contraseña"/>
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Aceptar" icon="pi pi-check" process="edit-client @this" 
+                                     update=":form:edit-client" onclick="PF('editar').hide()">
+                        <f:actionListener binding="#{clienteBean.modificarCliente()}" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editar').hide()"
+                                     class="ui-button-secondary"/>
+                </f:facet>
+            </p:dialog>
+
+            <p:dialog header="Opciones a incluir con su compra" widgetVar="productDialog"  showEffect="fade"
+                      hideEffect="fade">
+                <p:outputPanel id="productDetail" class="ui-fluid">
+                    <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                        <p:graphicImage name="#{prendaBean.prendaSeleccionada.rutaImagen}" library="images" 
+                                        class="surface-200 shadow-2 p-3 border-round "/>
+                    </div>
+                    <div class="p-field">
+                        <p:outputLabel for="color">Color</p:outputLabel>
+                        <p:selectManyCheckbox id="color" value="#{pagoBean.prendaAgregar.colorList}" layout="responsive" columns="2">
+                            <f:selectItems value="#{prendaBean.prendaSeleccionada.colorList}" var="color" 
+                                           itemLabel="#{color.nombreColor}" itemValue="#{color}" />
+                        </p:selectManyCheckbox>
+                    </div>
+                    <div class="p-field">
+                        <p:outputLabel for="talla">Talla</p:outputLabel>
+                        <p:selectManyCheckbox id="talla" value="#{pagoBean.prendaAgregar.tallaList}" layout="responsive" columns="2">
+                            <f:selectItems value="#{prendaBean.prendaSeleccionada.tallaList}" var="talla" 
+                                           itemLabel="#{talla.talla}" itemValue="#{talla}" />
+                        </p:selectManyCheckbox>
+                    </div>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Aceptar" icon="pi pi-check" update=":form:productDetail" 
+                                     process="productDetail @this" onclick="PF('productDialog').hide()">
+                        <f:actionListener binding="#{pagoBean.agregarPrendaCarrito(prendaBean.prendaSeleccionada)}" />
+                        <!--<f:actionListener binding="#{prendaBean.reiniciarPrendaSeleccionada()}"/>-->
+                        <f:actionListener binding="#{pagoBean.actualizarBotonCarrito()}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('productDialog').hide()"
+                                     class="ui-button-secondary"/>
+                </f:facet>
+            </p:dialog>
+
+            <p:dialog header="Tarjetas" widgetVar="tarjeta" height="600px" width="1800px"  showEffect="fade" hideEffect="fade" 
+                      onShow="PF('sidebar1').hide()" draggable="false">
+                <p:growl id="messages_tarjeta" showDetail="true"/>
+
+                <p:dialog header="Modificar Tarjeta" showEffect="fade" widgetVar="editTarjetaDialog" width="400px">
+                    <p:outputPanel id="edit-tarjeta-content" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty pagoBean.tarjetaSeleccionada}">
+                            <div class="p-field">
+                                <p:outputLabel>Nombre Titular</p:outputLabel>
+                                <p:inputText value="#{pagoBean.tarjetaSeleccionada.nombreTitular}" required="true"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel>Número Tarjeta</p:outputLabel>
+                                <p:inputText value="#{pagoBean.tarjetaSeleccionada.numeroTarjeta}" required="true"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel>Fecha Vencimiento</p:outputLabel>
+                                <p:datePicker value="#{pagoBean.tarjetaSeleccionada.fechaVencimiento}" required="true"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel>CVV</p:outputLabel>
+                                <p:inputText value="#{pagoBean.tarjetaSeleccionada.cvv}" required="true"/>
+                            </div>
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Aceptar" icon="pi pi-check" update=":form:edit-tarjeta-content" 
+                                         process="edit-tarjeta-content @this" onclick="PF('editTarjetaDialog').hide()">
+                            <f:actionListener binding="#{pagoBean.modificarTarjeta()}" />
+                            <f:actionListener binding="#{pagoBean.reiniciarTarjetaSeleccionada()}" />
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editTarjetaDialog').hide()"
+                                         class="ui-button-secondary"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:dialog header="Agregar Tarjeta" showEffect="fade" widgetVar="manageTarjetaDialog" width="400px" 
+                          onShow="PF('sidebar1').hide()">
+                    <p:outputPanel id="manage-tarjeta-content" class="ui-fluid" >
+                        <p:outputPanel rendered="#{not empty pagoBean.tarjetaSeleccionada}">
+                            <div class="p-field">
+                                <p:outputLabel>Nombre Titular</p:outputLabel>
+                                <p:inputText value="#{pagoBean.tarjetaSeleccionada.nombreTitular}" required="true"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel>Número Tarjeta</p:outputLabel>
+                                <p:inputText value="#{pagoBean.tarjetaSeleccionada.numeroTarjeta}" required="true"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel>Fecha Vencimiento</p:outputLabel>
+                                <p:datePicker value="#{pagoBean.tarjetaSeleccionada.fechaVencimiento}" required="true"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel>CVV</p:outputLabel>
+                                <p:inputText value="#{pagoBean.tarjetaSeleccionada.cvv}" required="true"/>
+                            </div>
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Aceptar" icon="pi pi-check" update=":form:manage-tarjeta-content" 
+                                         process="manage-tarjeta-content @this">
+                            <f:actionListener binding="#{pagoBean.agregarTarjeta()}" />
+                            <f:actionListener binding="#{pagoBean.reiniciarTarjetaSeleccionada()}" />
+                            <f:actionListener binding="#{pagoBean.actualizarBotonEscoger()}" />
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageTarjetaDialog').hide()"
+                                         class="ui-button-secondary"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:dialog widgetVar="deleteTarjetaDialog" showEffect="fade" width="300" header="Confirmar">
+                    <p:commandButton value="Si" icon="pi pi-check" actionListener="#{pagoBean.eliminarTarjeta}"
+                                     process="@this" oncomplete="PF('deleteTarjetaDialog').hide()"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                     onclick="PF('deleteTarjetaDialog').hide()"/>
+                </p:dialog>
+
+                <p:dialog showEffect="fade" width="300">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                     icon="pi pi-times"/>
+                </p:dialog>
+
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="Agregar Tarjeta" icon="pi pi-plus" update=":form:manage-tarjeta-content" 
+                                         oncomplete="PF('manageTarjetaDialog').show()" styleClass="ui-button-success" 
+                                         style="margin-right: .5rem" actionListener="#{pagoBean.reiniciarTarjetaSeleccionada()}">
+                            <p:resetInput target=":form:manage-tarjeta-content"/>
+                        </p:commandButton>
+                        <p:commandButton id="delete-tarjetas-button" value="#{pagoBean.deleteButtonMessageTarjeta}"
+                                         icon="pi pi-trash" actionListener="#{pagoBean.eliminarTarjetas()}"
+                                         styleClass="ui-button-danger" disabled="#{!pagoBean.tieneTarjetasSeleccionadas()}"
+                                         update="@this">
+                            <p:confirm header="Confirmacion" message="Eliminar tarjetas seleccionadas?"
+                                       icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+
+                <p:dataTable id="dt-tarjetas" widgetVar="dtTarjetas" var="tarjeta" value="#{pagoBean.tarjetasCliente}"
+                             reflow="true" styleClass="tarjetas-table"
+                             selection="#{pagoBean.tarjetasSeleccionadas}" rowKey="#{tarjeta.idTarjeta}" paginator="true"
+                             rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                    <f:facet name="header">
+                        <div class="size-table-header">
+                            <i class="pi pi-cedit-card"></i>
+                            <span style="font-weight: bold">TARJETAS</span>
+                        </div>
+                    </f:facet>
+
+
+                    <p:ajax event="rowSelect" update=":form:delete-tarjetas-button"/>
+                    <p:ajax event="rowUnselect" update=":form:delete-tarjetas-button"/>
+                    <p:ajax event="rowSelectCheckbox" update=":form:delete-tarjetas-button"/>
+                    <p:ajax event="rowUnselectCheckbox" update=":form:delete-tarjetas-button"/>
+                    <p:ajax event="toggleSelect" update=":form:delete-tarjetas-button"/>
+
+
+                    <p:column selectionMode="multiple" exportable="false" width="20px"></p:column>
+
+                    <p:column headerText="ID Tarjeta" sortBy="#{tarjeta.idTarjeta}" width="70px">
+                        <h:outputText value="#{tarjeta.idTarjeta}"/>
+                    </p:column>
+                    <p:column headerText="Nombre Titular" sortBy="#{tarjeta.nombreTitular}">
+                        <h:outputText value="#{tarjeta.nombreTitular}"/>
+                    </p:column>
+                    <p:column headerText="Número Tarjeta" sortBy="#{tarjeta.numeroTarjeta}">
+                        <h:outputText value="#{tarjeta.numeroTarjeta}"/>
+                    </p:column>
+                    <p:column headerText="Fecha Vencimiento" sortBy="#{tarjeta.fechaVencimiento}">
+                        <h:outputText value="#{tarjeta.fechaVencimiento}"/>
+                    </p:column>
+                    <p:column headerText="CVV" sortBy="#{tarjeta.cvv}">
+                        <h:outputText value="#{tarjeta.cvv}"/>
+                    </p:column>
+                    <p:column headerText="Opciones" exportable="false" width="150px">
+                        <p:commandButton icon="pi pi-pencil" update=":form:edit-tarjeta-content"
+                                         oncomplete="PF('editTarjetaDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{tarjeta}" target="#{pagoBean.tarjetaSeleccionada}"/>
+                            <p:resetInput target=":form:edit-tarjeta-content"/>
+                        </p:commandButton>
+                        <p:spacer width="10px" height="20px"/>
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                         oncomplete="PF('deleteTarjetaDialog').show()">
+                            <f:setPropertyActionListener value="#{tarjeta}" target="#{pagoBean.tarjetaSeleccionada}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:dialog>
+
+            <p:dialog id="carrito_compra" header="Carrito" widgetVar="pago" height="700px" width="1200px"  showEffect="fade" hideEffect="fade" 
+                      onShow="PF('sidebar1').hide()" draggable="false">
+                <p:growl id="messages_pago" showDetail="true"/>
+
+                <p:dialog header="Modificar Opciones" widgetVar="modificarCompra"  showEffect="fade"
+                          hideEffect="fade">
+                    <p:outputPanel id="modificar_compra" class="ui-fluid">
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{pagoBean.productoSeleccionado.rutaImagen}" library="images" 
+                                            class="surface-200 shadow-2 p-3 border-round "/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel for="color_2">Color</p:outputLabel>
+                            <p:selectManyCheckbox id="color_2" value="#{pagoBean.productoSeleccionado.colorList}" layout="responsive" columns="2">
+                                <f:selectItems value="#{pagoBean.productoDuplicado.colorList}" var="color" 
+                                               itemLabel="#{color.nombreColor}" itemValue="#{color}" />
+                            </p:selectManyCheckbox>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel for="talla_2">Talla</p:outputLabel>
+                            <p:selectManyCheckbox id="talla_2" value="#{pagoBean.productoSeleccionado.tallaList}" layout="responsive" columns="2">
+                                <f:selectItems value="#{pagoBean.productoDuplicado.tallaList}" var="talla" 
+                                               itemLabel="#{talla.talla}" itemValue="#{talla}" />
+                            </p:selectManyCheckbox>
+                        </div>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Aceptar" icon="pi pi-check" update=":form:modificar_compra" 
+                                         process="modificar_compra @this" onclick="PF('modificarCompra').hide()">
+                            <f:actionListener binding="#{pagoBean.editarCarrito(pagoBean.productoSeleccionado)}" />
+                            <f:actionListener binding="#{pagoBean.actualizarTablaCarrito()}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('modificarCompra').hide()"
+                                         class="ui-button-secondary"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:dialog widgetVar="borrarPrenda" showEffect="fade" width="300" header="Confirmar">
+                    <p:commandButton value="Si" icon="pi pi-check" actionListener="#{pagoBean.eliminarPrendaCarrito(pagoBean.productoSeleccionado)}"
+                                     process="@this" oncomplete="PF('borrarPrenda').hide()">
+                        <f:actionListener binding="#{pagoBean.actualizarBotonCarrito()}" />
+                    </p:commandButton>
+                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                     onclick="PF('borrarPrenda').hide()"/>
+                </p:dialog>
+
+                <p:toolbar id="barra_compra">
+                    <p:toolbarGroup>
+                        <p:commandButton id="pago_confirmar" value="Escoger Tarjeta" icon="pi pi-credit-card" 
+                                         styleClass="ui-button-raised ui-button-info ui-button-flat" style="margin-right: .5rem"/>
+                        <p:overlayPanel id="over_tar" for="pago_confirmar" dynamic="true" style="width:600px" widgetVar="tarjetaSelect">
+                            <p:dataTable var="tar" value="#{pagoBean.tarjetasCliente}" rows="5" paginator="true" selectionMode="single"
+                                         selection="#{pagoBean.tarjetaSeleccionada}" rowKey="#{tar.idTarjeta}" 
+                                         id="dt-tarpago" widgetVar="dtTarPago">
+                                <p:ajax event="rowSelect" listener="#{pagoBean.tarjetaEnSeleccion}" update=":form:messages_pago" 
+                                        oncomplete="PF('tarjetaSelect').hide()"/>
+                                <p:column headerText="Nombre Titular">
+                                    <h:outputText value="#{tar.nombreTitular}"/>
+                                </p:column>
+                                <p:column headerText="Número Tarjeta">
+                                    <h:outputText value="#{tar.numeroTarjeta}"/>
+                                </p:column>
+                                <p:column headerText="Fecha Vencimiento">
+                                    <h:outputText value="#{tar.fechaVencimiento}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:overlayPanel>
+                        <p:commandButton value="Añadir Tarjeta" icon="pi pi-plus-circle" styleClass="ui-button-raised ui-button-help ui-button-flat" 
+                                         style="margin-right: .5rem" onclick="PF('tarjeta').show()"/>
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:dataTable id="dt-carritos" widgetVar="dtCarritos" var="producto" value="#{pagoBean.carrito}"
+                             reflow="true" styleClass="carritos-table" rowKey="#{producto.idPrenda}" paginator="true"
+                             rows="5" rowSelectMode="add" paginatorPosition="bottom">
+
+                    <p:column headerText="Nombre Prenda" sortBy="#{producto.nombre}" width="100px">
+                        <h:outputText value="#{producto.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Precio Prenda" sortBy="#{producto.precio}" width="100px">
+                        <h:outputText value="#{producto.precio}"/>
+                    </p:column>
+                    <p:column headerText="Categoría" sortBy="#{producto.categoria}" width="100px">
+                        <h:outputText value="#{producto.categoria}"/>
+                    </p:column>
+                    <p:column headerText="Descripción" sortBy="#{producto.descripcion}">
+                        <h:outputText value="#{producto.descripcion}"/>
+                    </p:column>
+                    <p:column headerText="Opciones" exportable="false" width="150px">
+                        <p:commandButton icon="pi pi-pencil" update=":form:modificar_compra"
+                                         oncomplete="PF('modificarCompra').show()"
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{producto}" target="#{pagoBean.productoSeleccionado}"/>
+                            <f:actionListener binding="#{pagoBean.editarPrenda(pagoBean.productoSeleccionado)}" />
+                            <p:resetInput target=":form:modificar_compra"/>
+                        </p:commandButton>
+                        <p:spacer width="10px" height="20px"/>
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                         oncomplete="PF('borrarPrenda').show()">
+                            <f:setPropertyActionListener value="#{producto}" target="#{pagoBean.productoSeleccionado}"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value=" Realizar Compra" icon="pi pi-shopping-cart" update=":form:dt-carritos"
+                                         styleClass="ui-button-raised ui-button-flat ui-button-plain" style="margin-right: .5rem" 
+                                         oncomplete="PF('pago').hide()" process="dt-carritos @this"
+                                         actionListener="#{pagoBean.realizarPago()}">
+                            <p:confirm type="popup" header="Confirmation" message="Confirmar compra?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('pago').hide()"
+                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat">
+                            <p:confirm type="popup" header="Confirmation" message="Cancelar compra?" icon="pi pi-info-circle"/>
+                        </p:commandButton>
+                        <p:confirmPopup global="true">
+                            <p:commandButton value="No" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                            <p:commandButton value="Sí" type="button" styleClass="ui-confirm-popup-yes" />
+                        </p:confirmPopup>
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+            </p:dialog>
+
+            <p:dialog id="registro_pedidos" header="Pedidos" widgetVar="pedidos" height="700px" width="1200px"  showEffect="fade" hideEffect="fade" 
+                      onShow="PF('sidebar1').hide()" draggable="false">
+                <p:growl id="messages_factura" showDetail="true"/>
+
+                <p:dataTable id="dt-facturas" widgetVar="dtFacturas" var="factura" value="#{pagoBean.facturasCliente}"
+                             reflow="true" styleClass="facturas-table" rowKey="#{factura.idFactura}" paginator="true"
+                             rows="10" paginatorPosition="bottom">
+                    <f:facet name="header">
+                        <div class="size-table-header">
+                            <i class="pi pi-file-o"></i>
+                            <span style="font-weight: bold">FACTURAS</span>
+                        </div>
+                    </f:facet>
+
+                    <p:column headerText="ID Factura" sortBy="#{factura.idFactura}" width="70px">
+                        <h:outputText value="#{factura.idFactura}"/>
+                    </p:column>
+                    <p:column headerText="Nombre Cliente">
+                        <h:outputText value="#{factura.idCliente.idPersona.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Cédula Cliente">
+                        <h:outputText value="#{factura.idCliente.idPersona.cedula}"/>
+                    </p:column>
+                    <p:column headerText="Fecha Emisión" sortBy="#{factura.fechaEmision}">
+                        <h:outputText value="#{factura.fechaEmision}"/>
+                    </p:column>
+                    <p:column headerText="Prendas">
+                        <p:selectOneMenu label="Prendas" alwaysDisplayLabel="true">
+                            <f:selectItems value="#{factura.idDetalle.prendaList}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column headerText="Valor Gastado" sortBy="#{factura.precioTotal}">
+                        <h:outputText value="#{factura.precioTotal}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaPrendas" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_general" showDetail="true"/>
+                <p:dataGrid id="tabla_general" var="prenda" value="#{catalogoBean.catalogoGeneral}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDama" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo" showDetail="true"/>
+                <p:dataGrid id="tabla_dama" var="prenda" value="#{catalogoBean.catalogoDama}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Dama
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaCalzado" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_1_1" showDetail="true"/>
+                <p:dataGrid id="tabla_dama_1_1" var="prenda" value="#{catalogoBean.catalogoDamaCalzado}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Dama
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaInteriorPijama" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_1_2" showDetail="true"/>
+                <p:dataGrid id="tabla_dama_1_2" var="prenda" value="#{catalogoBean.catalogoDamaInteriorPijama}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Dama
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaCamisaFormal" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_1_3" showDetail="true"/>
+                <p:dataGrid id="tabla_dama_1_3" var="prenda" value="#{catalogoBean.catalogoDamaCamisaFormal}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Dama
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaPantalon" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_1_4" showDetail="true"/>
+                <p:dataGrid id="tabla_dama_1_4" var="prenda" value="#{catalogoBean.catalogoDamaPantalon}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Dama
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaAbrigoCalentador" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_1_5" showDetail="true"/>
+                <p:dataGrid id="tabla_dama_1_5" var="prenda" value="#{catalogoBean.catalogoDamaAbrigoCalentador}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Dama
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaBlusa" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_1_6" showDetail="true"/>
+                <p:dataGrid id="tabla_dama_1_6" var="prenda" value="#{catalogoBean.catalogoDamaBlusa}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Dama
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaDamaVestido" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_1_7" showDetail="true"/>
+                <p:dataGrid id="tabla_dama_1_7" var="prenda" value="#{catalogoBean.catalogoDamaVestido}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Dama
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballero" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_2" showDetail="true"/>
+                <p:dataGrid id="tabla_caballero" var="prenda" value="#{catalogoBean.catalogoCaballero}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Caballero
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroCalzado" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_2_1" showDetail="true"/>
+                <p:dataGrid id="tabla_caballero_1" var="prenda" value="#{catalogoBean.catalogoCaballeroCalzado}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Caballero
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroInteriorPijama" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_2_2" showDetail="true"/>
+                <p:dataGrid id="tabla_caballero_2" var="prenda" value="#{catalogoBean.catalogoCaballeroInteriorPijama}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Caballero
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroCamisaFormal" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_2_3" showDetail="true"/>
+                <p:dataGrid id="tabla_caballero_3" var="prenda" value="#{catalogoBean.catalogoCaballeroCamisaFormal}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Caballero
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroPantalonBermuda" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_2_4" showDetail="true"/>
+                <p:dataGrid id="tabla_caballero_4" var="prenda" value="#{catalogoBean.catalogoCaballeroPantalonBermuda}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Caballero
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroAbrigo" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_2_5" showDetail="true"/>
+                <p:dataGrid id="tabla_caballero_5" var="prenda" value="#{catalogoBean.catalogoCaballeroAbrigo}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Caballero
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroDeportivaCalentador" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_2_6" showDetail="true"/>
+                <p:dataGrid id="tabla_caballero_6" var="prenda" value="#{catalogoBean.catalogoCaballeroDeportivaCalentador}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Caballero
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaCaballeroCamiseta" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_2_7" showDetail="true"/>
+                <p:dataGrid id="tabla_caballero_7" var="prenda" value="#{catalogoBean.catalogoCaballeroCamiseta}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Caballero
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaInfantil" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_3" showDetail="true"/>
+                <p:dataGrid id="tabla_infantil" var="prenda" value="#{catalogoBean.catalogoInfantil}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Infantil
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaNiño" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_3_1" showDetail="true"/>
+                <p:dataGrid id="tabla_infantil_1" var="prenda" value="#{catalogoBean.catalogoNiño}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Infantil
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+
+            <p:dialog header="Prendas" showEffect="fade" widgetVar="tablaNiña" draggable="false" responsive="true" height="800px" width="2000px">
+                <p:growl id="messages_catalogo_3_2" showDetail="true"/>
+                <p:dataGrid id="tabla_infantil_2" var="prenda" value="#{catalogoBean.catalogoNiña}" columns="4" layout="grid"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+                    <f:facet name="header">
+                        Prendas Infantil
+                        <div align="right">
+                            <p:linkButton   onclick="indexUsuario" style="background:transparent; border: none;">
+                                <h:graphicImage library="images" name="regreso.png"  />
+                            </p:linkButton>
+                        </div>
+                    </f:facet>
+                    <div class="surface-0 shadow-2 p-3 border-round   bg-bluegray-50 justify-content-center  align-content-evenly" style=" min-height: 550px">
+                        <div class="product-grid-item-top ">
+                            <div>
+                                <i class="pi pi-tag product-category-icon "/>
+                                <h3 class="product-category ">#{prenda.categoria}</h3>
+                            </div>
+                        </div>
+                        <div class="product-grid-item-content flex align-items-center justify-content-center  ">
+                            <p:graphicImage name="#{prenda.rutaImagen}" library="images" class="surface-200 shadow-2 p-3 border-round "/>
+                        </div> 
+                        <div>
+                            <h1 class=" justify-content-center flex align-items-center  ">#{prenda.nombre}</h1>
+                        </div>
+                        <div class="product-description align-content-end justify-content-center flex align-items-center ">#{prenda.descripcion}</div>
+                        <h2 class="product-category justify-content-center flex align-items-center">$ #{prenda.precio}</h2>
+                        <div className="ml-20">
+                            <p:commandButton  icon="pi pi-shopping-cart" update=":form:productDetail" oncomplete="PF('productDialog').show()"
+                                              value="Añadir al carrito" styleClass="rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{prenda}" target="#{prendaBean.prendaSeleccionada}"/>
+                                <p:resetInput target=":form:productDetail"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:dataGrid>
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>
